@@ -65,10 +65,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Model\" />
 	  <Folder Include="Service\" />
 	  <Folder Include="View\" />
-	  <Folder Include="ViewModel\" />
 	</ItemGroup>
 
 </Project>
