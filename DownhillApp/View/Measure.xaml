@@ -2,12 +2,34 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DownhillApp.View.Measure"
-             Title="Measure">
+             Title="The mountain is calling, and I must ride!">
     <VerticalStackLayout>
-        <Label 
-            Text="The mountain is calling, and I must ride!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Grid ColumnDefinitions="*,*">
+            <VerticalStackLayout>
+                <ScrollView>
+                    <CollectionView>
+                    
+                    </CollectionView>
+                </ScrollView>
+                <Button Text="Start Ride" Command="{Binding C_StartMeasure}"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Name"/>
+                <Entry Text="..."/>
+                <Label Text="Track Name"/>
+                <Grid ColumnDefinitions="*,*">
+                    <Picker Title="Select track or add new" HorizontalOptions="Start"/>
+                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                        <VerticalStackLayout Margin="10,0">
+                            <Label Text="New Track Name"/>
+                            <Entry Text="..."/>
+                        </VerticalStackLayout>
+                        <Button Text="Add new track"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+        <Button Text="Save this Ride"/>
         <Button Text="Back to Menu" Command="{Binding C_BackToMenu}"/>
     </VerticalStackLayout>
 </ContentPage>

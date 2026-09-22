@@ -5,10 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:DownhillApp"
     xmlns:view="clr-namespace:DownhillApp.View"
-    Title="DownhillApp">
+    Title="DownhillApp"
+    FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="HomePage"
+        Title="MainMenu"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
