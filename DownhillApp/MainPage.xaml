@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DownhillApp.MainPage">
     <VerticalStackLayout>
-        <Button Text="Új Mérés" Command="{Binding C_NewMeasure}"/>
+        <Button Text="One more hill, one more thrill" Command="{Binding C_NewMeasure}"/>
+        <Button Text="Conquer the hill, conquer yourself"/>
     </VerticalStackLayout>
 </ContentPage>

@@ -66,7 +66,12 @@
 
 	<ItemGroup>
 	  <Folder Include="Service\" />
-	  <Folder Include="View\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="View\Measure.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
