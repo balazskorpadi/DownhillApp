@@ -11,25 +11,25 @@
                     
                     </CollectionView>
                 </ScrollView>
-                <Button Text="Start Ride" Command="{Binding C_StartMeasure}"/>
+                <Button Text="Start Ride" Command="{Binding C_StartMeasure}" Margin="10"/>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Column="1">
                 <Label Text="Name"/>
-                <Entry Text="..."/>
+                <Entry Text="..." Margin="0,0,0,50"/>
                 <Label Text="Track Name"/>
                 <Grid ColumnDefinitions="*,*">
-                    <Picker Title="Select track or add new" HorizontalOptions="Start"/>
+                    <Picker Title="Select track or add new" ItemsSource="{Binding AllGroup}" HorizontalOptions="Start"/>
                     <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
                         <VerticalStackLayout Margin="10,0">
                             <Label Text="New Track Name"/>
-                            <Entry Text="..."/>
+                            <Entry Text="{Binding GroupName}"/>
                         </VerticalStackLayout>
-                        <Button Text="Add new track"/>
+                        <Button Text="Add new track" Command="{Binding C_AddNewGroup}" Margin="10"/>
                     </HorizontalStackLayout>
                 </Grid>
             </VerticalStackLayout>
         </Grid>
-        <Button Text="Save this Ride"/>
-        <Button Text="Back to Menu" Command="{Binding C_BackToMenu}"/>
+        <Button Text="Save this Ride" Command="{Binding C_SaveRide}" Margin="10"/>
+        <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
     </VerticalStackLayout>
 </ContentPage>
