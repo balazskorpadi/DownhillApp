@@ -4,32 +4,28 @@
              x:Class="DownhillApp.View.Measure"
              Title="The mountain is calling, and I must ride!">
     <VerticalStackLayout>
-        <Grid ColumnDefinitions="*,*">
-            <VerticalStackLayout>
-                <ScrollView>
-                    <CollectionView>
-                    
-                    </CollectionView>
-                </ScrollView>
-                <Button Text="Start Ride" Command="{Binding C_StartMeasure}" Margin="10"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Name"/>
-                <Entry Text="..." Margin="0,0,0,50"/>
-                <Label Text="Track Name"/>
-                <Grid ColumnDefinitions="*,*">
-                    <Picker Title="Select track or add new" ItemsSource="{Binding AllGroup}" HorizontalOptions="Start"/>
-                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
-                        <VerticalStackLayout Margin="10,0">
-                            <Label Text="New Track Name"/>
-                            <Entry Text="{Binding GroupName}"/>
-                        </VerticalStackLayout>
-                        <Button Text="Add new track" Command="{Binding C_AddNewGroup}" Margin="10"/>
-                    </HorizontalStackLayout>
-                </Grid>
-            </VerticalStackLayout>
-        </Grid>
-        <Button Text="Save this Ride" Command="{Binding C_SaveRide}" Margin="10"/>
         <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
+            <Button Text="Save this Ride" Command="{Binding C_SaveRide}" Margin="10,10,10,50"/>
+
+            <Label Text="Name of the Ride" Margin="10,0,10,10"/>
+            <Entry Text="" Margin="10,0,10,20"/>
+            <Label Text="Name Of the Track" Margin="10,0,10,10"/>
+            <Picker SelectedItem="{Binding SelecteGroup}" ItemsSource="{Binding AllGroup}" Margin="10,0,10,20"/>
+
+            <Grid ColumnDefinitions="auto,auto,auto" Margin="10,0,10,20">
+                <Label Text="New Track Name:" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,10,0"/>
+                <Entry Text="{Binding GroupName}" Grid.Column="1" WidthRequest="150" Margin="0,0,10,0"/>
+                <Button Text="Add new track" Grid.Column="2" Command="{Binding C_AddNewGroup}" MaximumWidthRequest="150"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" Margin="10">
+                <Button Text="Start Ride" Command="{Binding C_StartMeasure}" Margin="10"/>
+                <Button Text="Stop Ride" Command="{Binding C_StopMeasure}" Grid.Column="1" Margin="10"/>
+            </Grid>
+            <ScrollView MaximumHeightRequest="500">
+                <CollectionView ItemsSource="{Binding AllData}">
+
+                </CollectionView>
+            </ScrollView>
     </VerticalStackLayout>
 </ContentPage>
