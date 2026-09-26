@@ -1,5 +1,4 @@
 ﻿using DownhillApp.Model;
-using PdfKit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -105,7 +104,7 @@ namespace DownhillApp.ViewModel
 
         public async void AddNewGroup()
         {
-            if(this.groupName == "" || this.GroupName == null)
+            if(this.GroupName == "" || this.GroupName == null)
             {
                 await Shell.Current.DisplayAlert("ERROR","Empty field!","OK");
             }
@@ -163,7 +162,7 @@ namespace DownhillApp.ViewModel
         {
             RideData result = new RideData();
             result.Name = this.Name;
-            result.GrpupName = this.GroupName;
+            result.GrpupName = new Group(this.GroupName);
             result.Time = 0; //ki kell még javítani
             
             //data: acc:x;acc:y;acc:z;gir:x;gir:y;gir:z

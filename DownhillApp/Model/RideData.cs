@@ -9,7 +9,7 @@ namespace DownhillApp.Model
     public class RideData : BaseModel
     {
         private string name;
-        private string groupName;
+        private Group groupName;
         private float time;
         private List<float[]> acceleration;
         private List<float[]> rotacion;
@@ -18,7 +18,7 @@ namespace DownhillApp.Model
         public RideData()
         {
             this.name = "";
-            this.groupName = "";
+            this.groupName = new Group();
             this.time = 0;
             this.acceleration = new List<float[]>();
             this.rotacion = new List<float[]>();
@@ -26,7 +26,7 @@ namespace DownhillApp.Model
             this.height = new List<float>();
 
         }
-        public RideData(string name, string groupName, float time, List<float[]> acceleration, List<float[]> rotacion, List<float[]> position, List<float> height)
+        public RideData(string name, Group groupName, float time, List<float[]> acceleration, List<float[]> rotacion, List<float[]> position, List<float> height)
         {
             this.name = name;
             this.groupName = groupName;
@@ -47,7 +47,7 @@ namespace DownhillApp.Model
             }
         }
 
-        public string GrpupName
+        public Group GrpupName
         {
             get { return this.groupName; }
             set
