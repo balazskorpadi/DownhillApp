@@ -51,9 +51,9 @@ namespace DownhillApp.Service
                     List<RideData> all = await dataBase.Table<RideData>().ToListAsync();
                     foreach (RideData item in all)
                     {
-                        if(item.GrpupName.Name == g.Name)
+                        if(item.GrpupName == g.Name)
                         {
-                            item.GrpupName.Name = g.Name;
+                            item.GrpupName = g.Name;
                             await dataBase.UpdateAsync(item);
                         }
                     }

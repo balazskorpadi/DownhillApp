@@ -15,6 +15,9 @@ public partial class Measure : ContentPage
     protected override void OnAppearing()
     {
 		base.OnAppearing();
-		//saját kód0
+		if(BindingContext is MeasureViewModel vm)
+		{
+			vm.SetGroupNames();
+		}
     }
 }

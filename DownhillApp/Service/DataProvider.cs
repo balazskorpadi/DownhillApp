@@ -1,6 +1,7 @@
 ﻿using DownhillApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +27,9 @@ namespace DownhillApp.Service
         {
             this.db.Ubdate(obj);
         }
-        public List<string> GetAllGroupName()
+        public ObservableCollection<string> GetAllGroupName()
         {
-            List<string> result = new List<string>();
+            ObservableCollection<string> result = new ObservableCollection<string>();
             foreach (Group g in db.AllGroups().Result)
             {
                 result.Add(g.Name);
@@ -46,7 +47,7 @@ namespace DownhillApp.Service
             List<RideData> result = this.db.AllRides().Result;
             foreach (RideData rd in result)
             {
-                if (rd.GrpupName.Name != name)
+                if (rd.GrpupName != name)
                 {
                     result.Remove(rd);
                 }

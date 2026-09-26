@@ -36,8 +36,8 @@ namespace DownhillApp.ViewModel
         public MeasureViewModel(IDataProvider service)
         {
             this.dataProvider = service;
-            
-            this.AllGroup = new ObservableCollection<string>();
+
+            this.AllGroup = dataProvider.GetAllGroupName();
             this.AllMeasure = new ObservableCollection<string>();          
             this.C_BackToMenu = new Command(BackToMenu);
             this.C_StartMeasure = new Command(() => StartMeasure());
@@ -104,7 +104,7 @@ namespace DownhillApp.ViewModel
             allGps.Add(currentGps);
         }
 
-        public async void AddNewGroup()
+        private async void AddNewGroup()
         {
             if(this.GroupName == "" || this.GroupName == null)
             {
@@ -113,6 +113,7 @@ namespace DownhillApp.ViewModel
             else
             {
                 AllGroup.Add(this.GroupName);
+                dataProvider.Create(new Group(this.groupName));
             }
             this.GroupName = "";
         }
@@ -164,7 +165,7 @@ namespace DownhillApp.ViewModel
         {
             RideData result = new RideData();
             result.Name = this.Name;
-            result.GrpupName = new Group(this.GroupName);
+            result.GrpupName = this.GroupName;
             result.Time = 0; //ki kell még javítani
             
             //data: acc:x;acc:y;acc:z;gir:x;gir:y;gir:z
@@ -205,6 +206,11 @@ namespace DownhillApp.ViewModel
                 result = -result;
             }
             return result;
+        }
+
+        public void SetGroupNames()
+        {
+            this.AllGroup = dataProvider.GetAllGroupName();
         }
     }
 }

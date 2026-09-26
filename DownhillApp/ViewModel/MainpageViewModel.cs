@@ -9,15 +9,25 @@ namespace DownhillApp.ViewModel
     public class MainpageViewModel : BaseViewModel
     {
         public Command C_NewMeasure { get; private set; }
+        public Command C_SeeResults { get; private set; }
+        public Command C_AllGroups { get; private set; }
+        public Command C_AllRides { get; private set; }
 
         public MainpageViewModel()
         {
             this.C_NewMeasure = new Command(ToMeasurePage);
+            this.C_AllGroups = new Command(ToAllGroups);
+
         }
 
         private async void ToMeasurePage()
         {
             await Shell.Current.GoToAsync("//Measure");
+        }
+
+        private async void ToAllGroups()
+        {
+            await Shell.Current.GoToAsync("//AllGroups");
         }
     }
 }

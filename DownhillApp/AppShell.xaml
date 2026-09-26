@@ -18,4 +18,9 @@
         ContentTemplate="{DataTemplate view:Measure}"
         Route="Measure"/>
 
+    <ShellContent
+        Title="MeasurePage"
+        ContentTemplate="{DataTemplate view:AllGroup}"
+        Route="AllGroups"/>
+
 </Shell>

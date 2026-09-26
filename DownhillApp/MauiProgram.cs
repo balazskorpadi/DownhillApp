@@ -26,6 +26,8 @@ namespace DownhillApp
             builder.Services.AddSingleton<ILocalDataBase, LocalDataBase>();
             builder.Services.AddSingleton<IDataProvider, DataProvider>();
 
+            var app = builder.Build();
+            ServiceHandler.Service = app.Services;
             return builder.Build();
         }
     }
