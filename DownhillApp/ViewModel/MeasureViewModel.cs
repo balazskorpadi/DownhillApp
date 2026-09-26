@@ -1,4 +1,5 @@
 ﻿using DownhillApp.Model;
+using DownhillApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,7 @@ namespace DownhillApp.ViewModel
     {
         private readonly HttpClient _httpClient;
         private IDispatcherTimer timer;
+        private IDataProvider dataProvider;
         public ObservableCollection<string> AllGroup { get; set; }
         public ObservableCollection<string> AllMeasure { get; set; }
         public Command C_BackToMenu { get; private set; }
@@ -31,12 +33,12 @@ namespace DownhillApp.ViewModel
         private string name;
         //private TimeSpan rideTime;
 
-        public MeasureViewModel()
+        public MeasureViewModel(IDataProvider service)
         {
-            this.AllGroup = new ObservableCollection<string>();
-            this.AllMeasure = new ObservableCollection<string>();
+            this.dataProvider = service;
             
-
+            this.AllGroup = new ObservableCollection<string>();
+            this.AllMeasure = new ObservableCollection<string>();          
             this.C_BackToMenu = new Command(BackToMenu);
             this.C_StartMeasure = new Command(() => StartMeasure());
             this.C_StopMeasure = new Command(StopMeasure);

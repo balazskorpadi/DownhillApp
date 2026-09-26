@@ -1,3 +1,4 @@
+using DownhillApp.Service;
 using DownhillApp.ViewModel;
 
 namespace DownhillApp.View;
@@ -7,6 +8,13 @@ public partial class Measure : ContentPage
 	public Measure()
 	{
 		InitializeComponent();
-		this.BindingContext = new MeasureViewModel();
+		var service = ServiceHandler.Service.GetService<IDataProvider>();
+		this.BindingContext = new MeasureViewModel(service);
 	}
+
+    protected override void OnAppearing()
+    {
+		base.OnAppearing();
+		//saját kód0
+    }
 }

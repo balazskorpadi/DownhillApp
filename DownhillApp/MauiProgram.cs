@@ -1,7 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DownhillApp.Service;
+using Microsoft.Extensions.Logging;
 
 namespace DownhillApp
 {
+    public static class ServiceHandler
+    {
+        public static IServiceProvider Service { get; set; } 
+    }
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()
@@ -18,6 +23,8 @@ namespace DownhillApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<ILocalDataBase, LocalDataBase>();
+            builder.Services.AddSingleton<IDataProvider, DataProvider>();
 
             return builder.Build();
         }

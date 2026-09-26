@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DownhillApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,51 @@ using System.Threading.Tasks;
 
 namespace DownhillApp.Service
 {
-    public class DataProvider
+    public class DataProvider : IDataProvider
     {
-        //CRUD-s
-        //AllGroupName
-        //BestRide within group
-        //GetRiides within groups
+        private ILocalDataBase db;
+        public DataProvider(ILocalDataBase dataBase)
+        {
+            this.db = dataBase;
+        }
+        public void Create(object obj)
+        {
+            this.db.Insert(obj);
+        }
+        public void Delete(object obj)
+        {
+            this.db.Delete(obj);
+        }
+        public void Update(object obj)
+        {
+            this.db.Ubdate(obj);
+        }
+        public List<string> GetAllGroupName()
+        {
+            List<string> result = new List<string>();
+            foreach (Group g in db.AllGroups().Result)
+            {
+                result.Add(g.Name);
+            }
+            return result;
+        }
+        public List<RideData> GetAllRides()
+        {
+            List<RideData> result = this.db.AllRides().Result;
+            return result;
+        }
+
+        public List<RideData> GetRidesWithName(string name)
+        {
+            List<RideData> result = this.db.AllRides().Result;
+            foreach (RideData rd in result)
+            {
+                if (rd.GrpupName.Name != name)
+                {
+                    result.Remove(rd);
+                }
+            }
+            return result;
+        }
     }
 }
