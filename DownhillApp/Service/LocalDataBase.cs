@@ -2,6 +2,7 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -18,9 +19,19 @@ namespace DownhillApp.Service
         public LocalDataBase()
         {
             dataBase = new SQLiteAsyncConnection(dataBasePath);
-            dataBase.CreateTableAsync<RideData>().Wait();
             dataBase.CreateTableAsync<Group>().Wait();
+            dataBase.CreateTableAsync<RideData>().Wait();
         }
+
+        /*public async Task Inicializedatabase()
+        {
+
+            dataBase.CreateTableAsync<RideData>().Wait();
+
+            dataBase.CreateTableAsync<Group>().Wait();
+
+        }*/
+
 
         public async Task Insert(object obj)
         {
@@ -82,10 +93,23 @@ namespace DownhillApp.Service
             return result;
         }
 
-        public async Task<List<Group>> AllGroups()
+        public async Task<ObservableCollection<string>> AllGroups()
         {
-            List<Group> resutl = await dataBase.Table<Group>().ToListAsync();
-            return resutl;
+
+            //await dataBase.CreateTableAsync<Group>();
+
+
+            var valami = dataBase.Table<Group>();
+            var temp = valami.ToListAsync().Result;
+            ;
+
+            //var temp = await dataBase.Table<Group>().ToListAsync();
+            ObservableCollection<string> result = new ObservableCollection<string>();
+            foreach(Group g in temp)
+            {
+                result.Add(g.Name);
+            }
+            return result;
         }
     }
 }

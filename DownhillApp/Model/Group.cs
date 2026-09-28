@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace DownhillApp.Model
         {
             this.name = name;
         }
-
+        [PrimaryKey]
         public string Name
         {
             get { return this.name; }

@@ -29,11 +29,7 @@ namespace DownhillApp.Service
         }
         public ObservableCollection<string> GetAllGroupName()
         {
-            ObservableCollection<string> result = new ObservableCollection<string>();
-            foreach (Group g in db.AllGroups().Result)
-            {
-                result.Add(g.Name);
-            }
+            ObservableCollection<string> result = this.db.AllGroups().Result;
             return result;
         }
         public List<RideData> GetAllRides()

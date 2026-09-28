@@ -5,27 +5,27 @@
              Title="The mountain is calling, and I must ride!">
     <VerticalStackLayout>
         <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
-            <Button Text="Save this Ride" Command="{Binding C_SaveRide}" Margin="10,10,10,50"/>
+        <Button Text="Save this Ride" Command="{Binding C_SaveRide}" Margin="10,10,10,50"/>
+        
+        <Label Text="Name of the Ride" Margin="10,0,10,10"/>
+        <Entry Text="{Binding Name}" Margin="10,0,10,20"/>
+        <Label Text="Name Of the Track" Margin="10,0,10,10"/>
+        <Picker SelectedItem="{Binding SelectedGroup}" ItemsSource="{Binding AllGroup}" Margin="10,0,10,20"/>
 
-            <Label Text="Name of the Ride" Margin="10,0,10,10"/>
-            <Entry Text="{Binding Name}" Margin="10,0,10,20"/>
-            <Label Text="Name Of the Track" Margin="10,0,10,10"/>
-            <Picker SelectedItem="{Binding SelecteGroup}" ItemsSource="{Binding AllGroup}" Margin="10,0,10,20"/>
+        <Grid ColumnDefinitions="auto,auto,auto" Margin="10,0,10,20">
+            <Label Text="New Track Name:" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,10,0"/>
+            <Entry Text="{Binding GroupName}" Grid.Column="1" WidthRequest="150" Margin="0,0,10,0"/>
+            <Button Text="Add new track" Grid.Column="2" Command="{Binding C_AddNewGroup}" MaximumWidthRequest="150" Background="DarkViolet"/>
+        </Grid>
 
-            <Grid ColumnDefinitions="auto,auto,auto" Margin="10,0,10,20">
-                <Label Text="New Track Name:" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,10,0"/>
-                <Entry Text="{Binding GroupName}" Grid.Column="1" WidthRequest="150" Margin="0,0,10,0"/>
-                <Button Text="Add new track" Grid.Column="2" Command="{Binding C_AddNewGroup}" MaximumWidthRequest="150" Background="DarkViolet"/>
-            </Grid>
+        <Grid ColumnDefinitions="*,*" Margin="10">
+            <Button Text="Start Ride" Command="{Binding C_StartMeasure}" Margin="10" BackgroundColor="ForestGreen"/>
+            <Button Text="Stop Ride" Command="{Binding C_StopMeasure}" Grid.Column="1" Margin="10" BackgroundColor="Firebrick"/>
+        </Grid>
+        <ScrollView MaximumHeightRequest="500">
+            <CollectionView ItemsSource="{Binding AllData}">
 
-            <Grid ColumnDefinitions="*,*" Margin="10">
-                <Button Text="Start Ride" Command="{Binding C_StartMeasure}" Margin="10" BackgroundColor="ForestGreen"/>
-                <Button Text="Stop Ride" Command="{Binding C_StopMeasure}" Grid.Column="1" Margin="10" BackgroundColor="Firebrick"/>
-            </Grid>
-            <ScrollView MaximumHeightRequest="500">
-                <CollectionView ItemsSource="{Binding AllData}">
-
-                </CollectionView>
-            </ScrollView>
+            </CollectionView>
+        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>

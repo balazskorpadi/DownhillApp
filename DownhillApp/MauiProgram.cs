@@ -28,7 +28,7 @@ namespace DownhillApp
 
             var app = builder.Build();
             ServiceHandler.Service = app.Services;
-            return builder.Build();
+            return app;
         }
     }
 }

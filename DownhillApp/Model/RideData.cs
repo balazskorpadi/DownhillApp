@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DownhillApp.Model
@@ -10,9 +12,9 @@ namespace DownhillApp.Model
     {
         private string name;
         private string groupName;
-        private float time;
+        private int time;
         private List<float[]> acceleration;
-        private List<float[]> rotacion;
+        private List<float[]> rotation;
         private List<float[]> position;
         private List<float> height;
         public RideData()
@@ -21,22 +23,22 @@ namespace DownhillApp.Model
             this.groupName = "";
             this.time = 0;
             this.acceleration = new List<float[]>();
-            this.rotacion = new List<float[]>();
+            this.rotation = new List<float[]>();
             this.position = new List<float[]>();
             this.height = new List<float>();
 
         }
-        public RideData(string name, string groupName, float time, List<float[]> acceleration, List<float[]> rotacion, List<float[]> position, List<float> height)
+        public RideData(string name, string groupName, int time, List<float[]> acceleration, List<float[]> rotacion, List<float[]> position, List<float> height)
         {
             this.name = name;
             this.groupName = groupName;
             this.time = time;
             this.acceleration = acceleration;
-            this.rotacion = rotacion;
+            this.rotation = rotacion;
             this.position = position;
             this.height = height;
         }
-
+        [PrimaryKey]
         public string Name
         {
             get { return this.name; }
@@ -57,7 +59,7 @@ namespace DownhillApp.Model
             }
         }
 
-        public float Time
+        public int Time
         {
             get { return this.time; }
             set
@@ -66,7 +68,7 @@ namespace DownhillApp.Model
                 OnPropertyChange();
             }
         }
-
+        [Ignore]
         public List<float[]> Acceleration
         {
             get{ return this.acceleration; }
@@ -77,16 +79,41 @@ namespace DownhillApp.Model
             }
         }
 
-        public List<float[]> Rotation
+        public string AccelerationJson
         {
-            get { return this.rotacion; }
+            get
+            {
+                return JsonSerializer.Serialize(this.acceleration);
+            }
             set
             {
-                this.rotacion = value;
+                acceleration = JsonSerializer.Deserialize<List<float[]>>(value) ?? new List<float[]>();
+                OnPropertyChange(nameof(Acceleration));
+            }
+        }
+        [Ignore]
+        public List<float[]> Rotation
+        {
+            get { return this.rotation; }
+            set
+            {
+                this.rotation = value;
                 OnPropertyChange();
             }
         }
-
+        public string RotationJson
+        {
+            get
+            {
+                return JsonSerializer.Serialize(this.rotation);
+            }
+            set
+            {
+                rotation = JsonSerializer.Deserialize<List<float[]>>(value) ?? new List<float[]>();
+                OnPropertyChange(nameof(Rotation));
+            }
+        }
+        [Ignore]
         public List<float[]> Position
         {
             get { return this.position; }
@@ -96,7 +123,19 @@ namespace DownhillApp.Model
                 OnPropertyChange();
             }
         }
-
+        public string PositionJson
+        {
+            get
+            {
+                return JsonSerializer.Serialize(this.position);
+            }
+            set
+            {
+                position = JsonSerializer.Deserialize<List<float[]>>(value) ?? new List<float[]>();
+                OnPropertyChange(nameof(Position));
+            }
+        }
+        [Ignore]
         public List<float> Height
         {
             get { return this.height; }
@@ -104,6 +143,18 @@ namespace DownhillApp.Model
             {
                 this.height = value;
                 OnPropertyChange();
+            }
+        }
+        public string HeightJson
+        {
+            get
+            {
+                return JsonSerializer.Serialize(this.height);
+            }
+            set
+            {
+                height = JsonSerializer.Deserialize<List<float>>(value) ?? new List<float>();
+                OnPropertyChange(nameof(Height));
             }
         }
     }
