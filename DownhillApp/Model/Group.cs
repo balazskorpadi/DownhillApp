@@ -19,7 +19,10 @@ namespace DownhillApp.Model
         {
             this.name = name;
         }
-        [PrimaryKey]
+
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
         public string Name
         {
             get { return this.name; }

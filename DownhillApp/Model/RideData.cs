@@ -49,7 +49,7 @@ namespace DownhillApp.Model
             }
         }
 
-        public string GrpupName
+        public string GroupName
         {
             get { return this.groupName; }
             set

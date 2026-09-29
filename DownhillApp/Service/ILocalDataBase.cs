@@ -5,11 +5,12 @@ namespace DownhillApp.Service
 {
     public interface ILocalDataBase
     {
-        //Task Inicializedatabase();
+        ObservableCollection<Group> AllGroups();
+        ObservableCollection<RideData> AllRides();
         Task Delete(object obj);
-        Task<ObservableCollection<string>> AllGroups();
-        Task<List<RideData>> AllRides();
         Task Insert(object obj);
-        Task Ubdate(object obj);
+        void Save(string tablename);
+        Task UpdateGroup(Group add, Group remove);
+        Task UpdateRide(RideData obj);
     }
 }

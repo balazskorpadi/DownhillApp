@@ -81,8 +81,12 @@ namespace DownhillApp.ViewModel
             if(IsModified)
             {
                 //Update
-                SelectedName = EditName;
-                dataProvider.Update(new Group(SelectedName));
+                int index = AllGroupName.IndexOf(SelectedName);
+                if(index >= 0)
+                {
+                    AllGroupName[index] = EditName;
+                }
+                dataProvider.Update(new Group(EditName), new Group(SelectedName));
             }
             else
             {
@@ -92,6 +96,7 @@ namespace DownhillApp.ViewModel
             }
             IsModified = false;
             EditName = "";
+            SelectedName = "";
         }
 
         public void SetDatas()

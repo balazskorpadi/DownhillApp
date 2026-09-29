@@ -23,32 +23,25 @@ namespace DownhillApp.Service
         {
             this.db.Delete(obj);
         }
-        public void Update(object obj)
+        public void UpdateRideData(RideData rd)
         {
-            this.db.Ubdate(obj);
+            this.db.UpdateRide(rd);
         }
-        public ObservableCollection<string> GetAllGroupName()
+        public void Update(Group add, Group remove)
         {
-            ObservableCollection<string> result = this.db.AllGroups().Result;
-            return result;
+            this.db.UpdateGroup(add, remove);
         }
-        public List<RideData> GetAllRides()
+        public ObservableCollection<Group> GetAllGroupName()
         {
-            List<RideData> result = this.db.AllRides().Result;
-            return result;
+            return this.db.AllGroups();
         }
-
-        public List<RideData> GetRidesWithName(string name)
+        public ObservableCollection<RideData> GetAllRides()
         {
-            List<RideData> result = this.db.AllRides().Result;
-            foreach (RideData rd in result)
-            {
-                if (rd.GrpupName != name)
-                {
-                    result.Remove(rd);
-                }
-            }
-            return result;
+            return this.db.AllRides();
+        }
+        public ObservableCollection<RideData> GetRidesWithName(string name)
+        {
+            return new ObservableCollection<RideData>(this.db.AllRides().Where(x => x.GroupName == name));
         }
     }
 }
