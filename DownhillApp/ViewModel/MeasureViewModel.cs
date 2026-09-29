@@ -37,7 +37,12 @@ namespace DownhillApp.ViewModel
         {
             this.dataProvider = service;
 
-            this.AllGroup = dataProvider.GetAllGroupName();
+            this.AllGroup = new ObservableCollection<string>();
+            foreach (Group g in dataProvider.GetAllGroupName())
+            {
+                this.AllGroup.Add(g.Name);
+            }
+
             this.AllMeasure = new ObservableCollection<string>();          
             this.C_BackToMenu = new Command(BackToMenu);
             this.C_StartMeasure = new Command(() => StartMeasure());
@@ -113,7 +118,7 @@ namespace DownhillApp.ViewModel
             else
             {
                 AllGroup.Add(this.GroupName);
-                dataProvider.Create(new Group(this.groupName));
+                dataProvider.Create(new Group(this.GroupName));
             }
             this.GroupName = "";
         }
@@ -165,7 +170,7 @@ namespace DownhillApp.ViewModel
         {
             RideData result = new RideData();
             result.Name = this.Name;
-            result.GrpupName = this.GroupName;
+            result.GroupName = this.GroupName;
             result.Time = 0; //ki kell még javítani
             
             //data: acc:x;acc:y;acc:z;gir:x;gir:y;gir:z
@@ -210,7 +215,11 @@ namespace DownhillApp.ViewModel
 
         public void SetGroupNames()
         {
-            this.AllGroup = dataProvider.GetAllGroupName();
+            AllGroup.Clear();
+            foreach (Group g in dataProvider.GetAllGroupName())
+            {
+                this.AllGroup.Add(g.Name);
+            }
         }
     }
 }

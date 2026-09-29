@@ -27,7 +27,7 @@ namespace DownhillApp.Service
         {
             this.db.UpdateRide(rd);
         }
-        public void Update(Group add, Group remove)
+        public void UpdateGroup(Group add, Group remove)
         {
             this.db.UpdateGroup(add, remove);
         }

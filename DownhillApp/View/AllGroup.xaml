@@ -14,7 +14,7 @@
                             <Border Stroke="White">
                                 <Grid ColumnDefinitions="auto,*">
                                     <Label Text="Name:" VerticalOptions="Center" Margin="10,0"/>
-                                    <Label Text="{Binding}" Grid.Column="1" VerticalOptions="Center" Margin="10"/>
+                                    <Label Text="{Binding Name}" Grid.Column="1" VerticalOptions="Center" Margin="10"/>
                                 </Grid>
                             </Border>
                         </Grid>
@@ -25,7 +25,7 @@
                 <Button Text="Modify" Command="{Binding C_Update}" BackgroundColor="Goldenrod" Margin="10" Padding="50,0"/>
                 <Button Text="Delete" Command="{Binding C_Delete}" BackgroundColor="FireBrick" Margin="10" Padding="50,0"/>
                 <Label Text="New Groupname or Modify the displayed one:" Margin="10,40,0,0"/>
-                <Entry Text="{Binding EditName}" Margin="10"/>
+                <Entry Text="{Binding EditName.Name}" Margin="10"/>
                 <Button Text="Save/Add" Command="{Binding C_Add}" BackgroundColor="ForestGreen" Margin="10"/>
                 <Button Text="Back to Menu" Command="{Binding C_BacktoMenu}" Margin="10,50,0,0"/>
             </VerticalStackLayout>

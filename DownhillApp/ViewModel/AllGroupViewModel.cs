@@ -15,30 +15,31 @@ namespace DownhillApp.ViewModel
     public class AllGroupViewModel : BaseViewModel
     {
         IDataProvider dataProvider;
-        public ObservableCollection<string> AllGroupName {  get; set; }
+        public ObservableCollection<Group> AllGroupName {  get; set; }
         public Command C_BacktoMenu { get; private set; }
         public Command C_Add { get; private set; }
         public Command C_Delete { get; private set; }
         public Command C_Update { get; private set; }
 
-        private string selectedName;
-        private string editName;
+        private Group selectedName;
+        private Group editName;
         private bool IsModified;
         public AllGroupViewModel(IDataProvider dp)
         {
             this.dataProvider = dp;
 
             this.AllGroupName = dataProvider.GetAllGroupName();
+
             this.C_BacktoMenu = new Command(BackToMenu);
             this.C_Add = new Command(Add);
             this.C_Delete = new Command(() => Delete());
             this.C_Update = new Command(Update);
-            selectedName = "";
-            editName = "";
+            selectedName = new Group();
+            editName = new Group();
             IsModified = false;
         }
 
-        public string SelectedName
+        public Group SelectedName
         {
             get { return selectedName; }
             set
@@ -48,7 +49,7 @@ namespace DownhillApp.ViewModel
             }
         }
 
-        public string EditName
+        public Group EditName
         {
             get { return editName; }
             set
@@ -65,9 +66,10 @@ namespace DownhillApp.ViewModel
 
         private void Delete()
         {
-            AllGroupName.Remove(SelectedName);
-            dataProvider.Delete(new Group(SelectedName));
-            SelectedName = "";
+            Group temp = AllGroupName.First(x => x.Name == SelectedName.Name);
+            AllGroupName.Remove(temp);
+            dataProvider.Delete(temp);
+            SelectedName = new Group();
         }
 
         private void Update()
@@ -81,29 +83,26 @@ namespace DownhillApp.ViewModel
             if(IsModified)
             {
                 //Update
-                int index = AllGroupName.IndexOf(SelectedName);
-                if(index >= 0)
-                {
-                    AllGroupName[index] = EditName;
-                }
-                dataProvider.Update(new Group(EditName), new Group(SelectedName));
+                Group temp = AllGroupName.First(x => x.Name == SelectedName.Name);
+                dataProvider.UpdateGroup(EditName, temp);
             }
             else
             {
                 //New Group
-                AllGroupName.Add(EditName);
-                dataProvider.Create(new Group(EditName));
+                dataProvider.Create(EditName);
             }
+            AllGroupName = dataProvider.GetAllGroupName();
             IsModified = false;
-            EditName = "";
-            SelectedName = "";
+            EditName = new Group();
+            SelectedName = new Group();
         }
 
         public void SetDatas()
         {
             this.AllGroupName = dataProvider.GetAllGroupName();
-            EditName = "";
-            SelectedName = "";
+
+            EditName = new Group();
+            SelectedName = new Group();
             IsModified = false;
         }
     }

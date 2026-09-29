@@ -10,7 +10,7 @@ namespace DownhillApp.Service
         ObservableCollection<Group> GetAllGroupName();
         ObservableCollection<RideData> GetAllRides();
         ObservableCollection<RideData> GetRidesWithName(string name);
-        void Update(Group add, Group remove);
+        void UpdateGroup(Group add, Group remove);
         void UpdateRideData(RideData rd);
     }
 }
