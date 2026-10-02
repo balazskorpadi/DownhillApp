@@ -16,6 +16,7 @@ namespace DownhillApp.ViewModel
         public MainpageViewModel()
         {
             this.C_NewMeasure = new Command(ToMeasurePage);
+            this.C_SeeResults = new Command(ToSeeResults);
             this.C_AllGroups = new Command(ToAllGroups);
 
         }
@@ -23,6 +24,11 @@ namespace DownhillApp.ViewModel
         private async void ToMeasurePage()
         {
             await Shell.Current.GoToAsync("//Measure");
+        }
+
+        private async void ToSeeResults()
+        {
+            await Shell.Current.GoToAsync("//Result");
         }
 
         private async void ToAllGroups()

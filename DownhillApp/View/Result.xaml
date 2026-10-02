@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DownhillApp.View.Result"
+             Title="Results">
+    <VerticalStackLayout>
+        <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
+        <Grid ColumnDefinitions="*,*,*">
+            <Label Text="Name" Grid.Column="0" HorizontalOptions="Center" Margin="10"/>
+            <Label Text="Time (sec)" Grid.Column="1" HorizontalOptions="Center" Margin="10"/>
+            <Label Text="Group" Grid.Column="2" HorizontalOptions="Center" Margin="10"/>
+        </Grid>
+        <CollectionView ItemsSource="{Binding AllRides}" Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="10" Padding="0,5">
+                        <Border Stroke="Purple">
+                            <Grid ColumnDefinitions="*,*,*">
+                                <Label Text="{Binding Name}" Grid.Column="0" HorizontalOptions="Center" Margin="10"/>
+                                <Label Text="{Binding Time}" Grid.Column="1" HorizontalOptions="Center" Margin="10"/>
+                                <Label Text="{Binding GroupName}" Grid.Column="2" HorizontalOptions="Center" Margin="10"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

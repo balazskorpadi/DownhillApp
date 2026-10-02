@@ -31,7 +31,7 @@ namespace DownhillApp.ViewModel
         private string groupName;
         private string selectedGroup;
         private string name;
-        //private TimeSpan rideTime;
+        private double rideTime;
 
         public MeasureViewModel(IDataProvider service)
         {
@@ -58,7 +58,7 @@ namespace DownhillApp.ViewModel
             this.groupName = "";
             this.selectedGroup = "";
             this.name = "";
-            //this.rideTime = TimeSpan.Zero;
+            this.rideTime = 0;
         }
 
         public string GroupName
@@ -91,9 +91,19 @@ namespace DownhillApp.ViewModel
             }
         }
 
+        public double RideTime
+        {
+            get { return this.rideTime; }
+            set
+            {
+                this.rideTime = value;
+                OnPropertyChange();
+            }
+        }
+
         private async void BackToMenu()
         {
-            //await _httpClient.GetAsync(IPAddress + "/stop");
+            await _httpClient.GetAsync(IPAddress + "/stop");
             SetDefault();
             await Shell.Current.GoToAsync("//MainPage");
         }
@@ -131,8 +141,8 @@ namespace DownhillApp.ViewModel
             }
             else
             {
-                //adatmentés kell még ide
                 RideData temp = SaveData();
+                this.dataProvider.Create(temp);
                 SetDefault();
                 await Shell.Current.GoToAsync("//MainPage");
             }
@@ -146,6 +156,7 @@ namespace DownhillApp.ViewModel
             timer.Tick += async (x, y) =>
             {
                 await GetData();
+                this.RideTime += 0.25;
             };
 
             timer.Start();
@@ -164,19 +175,21 @@ namespace DownhillApp.ViewModel
             allGps = new List<string>();
             Name = "";
             SelectedGroup = "";
+            this.RideTime = 0;
         }
 
         private RideData SaveData()
         {
             RideData result = new RideData();
             result.Name = this.Name;
-            result.GroupName = this.GroupName;
-            result.Time = 0; //ki kell még javítani
+            result.GroupName = this.SelectedGroup;
+            result.Time = (int)RideTime;
             
             //data: acc:x;acc:y;acc:z;gir:x;gir:y;gir:z
             foreach(string s in allData)
             {
-                string[] temp = s.Split(';');
+                string format = s.Replace('.',',');
+                string[] temp = format.Split(';');
                 float[] tempAcc = { float.Parse(temp[0]), float.Parse(temp[1]), float.Parse(temp[2]) };
                 float[] tempGir = { float.Parse(temp[3]), float.Parse(temp[4]), float.Parse(temp[5]) };
                 result.Acceleration.Add(tempAcc);
@@ -189,13 +202,16 @@ namespace DownhillApp.ViewModel
             longtitude: [4]
             longtitude direction: [5]
             waterhight: [9]*/
-            foreach(string s in allGps)
+            foreach (string s in allGps)
             {
                 string[] temp = s.Split(',');
+                for(int i = 0; i<temp.Length; i++)
+                {
+                    temp[i] = temp[i].Replace('.',',');
+                }
                 float[] coordinates = { ConvertCordinate(float.Parse(temp[2]), temp[3]), ConvertCordinate(float.Parse(temp[4]), temp[5]) };
                 result.Position.Add(coordinates);
                 result.Height.Add(float.Parse(temp[9]));
-
             }
 
             return result;

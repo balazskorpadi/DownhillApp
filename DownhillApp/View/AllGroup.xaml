@@ -10,8 +10,8 @@
             <CollectionView Grid.Row="1" ItemsSource="{Binding AllGroupName}" SelectedItem="{Binding SelectedName}" SelectionMode="Single" Margin="10">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="10">
-                            <Border Stroke="White">
+                        <Grid Margin="10" Padding="0,5">
+                            <Border Stroke="Purple">
                                 <Grid ColumnDefinitions="auto,*">
                                     <Label Text="Name:" VerticalOptions="Center" Margin="10,0"/>
                                     <Label Text="{Binding Name}" Grid.Column="1" VerticalOptions="Center" Margin="10"/>

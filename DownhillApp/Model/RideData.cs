@@ -38,7 +38,8 @@ namespace DownhillApp.Model
             this.position = position;
             this.height = height;
         }
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string Name
         {
             get { return this.name; }

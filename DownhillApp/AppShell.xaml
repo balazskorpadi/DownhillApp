@@ -17,6 +17,11 @@
         Title="MeasurePage"
         ContentTemplate="{DataTemplate view:Measure}"
         Route="Measure"/>
+    
+    <ShellContent
+        Title="ResultPage"
+        ContentTemplate="{DataTemplate view:Result}"
+        Route="Result"/>
 
     <ShellContent
         Title="AllGroupsPage"

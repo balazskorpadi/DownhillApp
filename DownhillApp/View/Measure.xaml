@@ -9,8 +9,12 @@
         
         <Label Text="Name of the Ride" Margin="10,0,10,10"/>
         <Entry Text="{Binding Name}" Margin="10,0,10,20"/>
-        <Label Text="Name Of the Track" Margin="10,0,10,10"/>
-        <Picker SelectedItem="{Binding SelectedGroup}" ItemsSource="{Binding AllGroup}" Margin="10,0,10,20"/>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
+            <Label Text="Name Of the Track" Margin="10,0,10,10"/>
+            <Picker Grid.Row="1" SelectedItem="{Binding SelectedGroup}" ItemsSource="{Binding AllGroup}" Margin="10,0,10,20"/>
+            <Label Grid.Column="1" Text="Time:"/>
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding RideTime}"/>
+        </Grid>
 
         <Grid ColumnDefinitions="auto,auto,auto" Margin="10,0,10,20">
             <Label Text="New Track Name:" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,10,0"/>
@@ -23,7 +27,7 @@
             <Button Text="Stop Ride" Command="{Binding C_StopMeasure}" Grid.Column="1" Margin="10" BackgroundColor="Firebrick"/>
         </Grid>
         <ScrollView MaximumHeightRequest="500">
-            <CollectionView ItemsSource="{Binding AllData}">
+            <CollectionView ItemsSource="{Binding AllMeasure}">
 
             </CollectionView>
         </ScrollView>
