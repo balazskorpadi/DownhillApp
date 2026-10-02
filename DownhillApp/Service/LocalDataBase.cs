@@ -28,8 +28,8 @@ namespace DownhillApp.Service
             dataBase.CreateTableAsync<Group>().Wait();
             dataBase.CreateTableAsync<RideData>().Wait();
 
-            LoadGroups();
-            LoadRides();
+            //LoadGroups();
+            //LoadRides();
         }
 
         public async Task Insert(object obj)
@@ -134,6 +134,12 @@ namespace DownhillApp.Service
             {
                 RideDatas.Add(r);
             }
+        }
+
+        public async void LoadAtTheStart()
+        {
+            LoadGroups();
+            LoadRides();
         }
     }
 }

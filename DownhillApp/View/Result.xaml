@@ -3,14 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DownhillApp.View.Result"
              Title="Results">
+    <ScrollView>
+        
+    
     <VerticalStackLayout>
-        <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
         <Grid ColumnDefinitions="*,*,*">
             <Label Text="Name" Grid.Column="0" HorizontalOptions="Center" Margin="10"/>
             <Label Text="Time (sec)" Grid.Column="1" HorizontalOptions="Center" Margin="10"/>
             <Label Text="Group" Grid.Column="2" HorizontalOptions="Center" Margin="10"/>
         </Grid>
-        <CollectionView ItemsSource="{Binding AllRides}" Margin="10">
+        <CollectionView ItemsSource="{Binding AllRides}" SelectedItem="{Binding SelectedRide}" SelectionMode="Single" Margin="10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="10" Padding="0,5">
@@ -25,5 +27,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="Select" Command="{Binding C_SelectRide}" BackgroundColor="ForestGreen" Margin="10" Padding="50,0"/>
+            <Button Text="Delete" Grid.Column="1" Command="{Binding C_Delete}" BackgroundColor="FireBrick" Margin="10" Padding="50,0"/>
+        </Grid>
+        <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

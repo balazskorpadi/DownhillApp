@@ -12,5 +12,6 @@ namespace DownhillApp.Service
         void Save(string tablename);
         Task UpdateGroup(Group add, Group remove);
         Task UpdateRide(RideData obj);
+        void LoadAtTheStart();
     }
 }

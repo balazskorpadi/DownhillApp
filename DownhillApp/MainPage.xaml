@@ -4,9 +4,8 @@
              x:Class="DownhillApp.MainPage" 
              Title="Downhill App Main Menu">
     <VerticalStackLayout>
-        <Button Text="One more hill, one more thrill" Command="{Binding C_NewMeasure}" Margin="10"/>
-        <Button Text="Conquer the hill, conquer yourself" Command="{Binding C_SeeResults}" Margin="10"/>
-        <Button Text="See all Groups" Command="{Binding C_AllGroups}" Margin="10"/>
-        <Button Text="See all Rides" Command="{Binding C_AllRides}" Margin="10"/>
+        <Button Text="One more hill, one more thrill" Command="{Binding C_NewMeasure}" Margin="10" Padding="20"/>
+        <Button Text="Conquer the hill, conquer yourself" Command="{Binding C_SeeResults}" Margin="10" Padding="20"/>
+        <Button Text="See all Groups" Command="{Binding C_AllGroups}" Margin="10" Padding="20"/>
     </VerticalStackLayout>
 </ContentPage>

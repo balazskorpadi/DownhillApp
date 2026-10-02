@@ -28,6 +28,8 @@ namespace DownhillApp
 
             var app = builder.Build();
             ServiceHandler.Service = app.Services;
+            ILocalDataBase loadDatas = ServiceHandler.Service.GetService<ILocalDataBase>();
+            loadDatas.LoadAtTheStart();
             return app;
         }
     }
