@@ -27,5 +27,10 @@
         Title="AllGroupsPage"
         ContentTemplate="{DataTemplate view:AllGroup}"
         Route="AllGroups"/>
+    
+    <ShellContent
+        Title="AnalisePage"
+        ContentTemplate="{DataTemplate view:Analise}"
+        Route="Analise"/>
 
 </Shell>

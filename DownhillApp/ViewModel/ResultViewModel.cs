@@ -1,5 +1,6 @@
 ﻿using DownhillApp.Model;
 using DownhillApp.Service;
+using Microsoft.Maui.Animations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,7 +49,25 @@ namespace DownhillApp.ViewModel
 
         private async void AnaliseRide()
         {
-            await Shell.Current.GoToAsync("");
+            if(this.SelectedRide.Name is null)
+            {
+                await Shell.Current.DisplayAlert("ERROR", "No ride selected", "OK");
+            }
+            else
+            {
+                RideData best = new RideData();
+                best.Time = int.MaxValue;
+                best.GroupName = this.SelectedRide.GroupName;
+                foreach(RideData rd in AllRides)
+                {
+                    if(best.Time > rd.Time && best.GroupName == rd.GroupName)
+                    {
+                        best = rd;
+                    }
+                }
+                var parameter = new ShellNavigationQueryParameters() { {"choosenRide", this.SelectedRide},{"bestRide", best} };
+                await Shell.Current.GoToAsync("//Analise", parameter);
+            }
         }
 
         private void Delete()
