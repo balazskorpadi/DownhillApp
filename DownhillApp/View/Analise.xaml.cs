@@ -31,7 +31,8 @@ public partial class Analise : ContentPage
 			if(this.BindingContext is AnaliseViewModel vm)
 			{
 				vm.SelectedRide = value;
-			}
+				vm.SetData();
+            }
 		}
 	}
 }
