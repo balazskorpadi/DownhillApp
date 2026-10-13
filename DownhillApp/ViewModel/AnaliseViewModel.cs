@@ -13,14 +13,26 @@ namespace DownhillApp.ViewModel
         public ObservableCollection<Point> DataSelectedX {  get; set; }
         public ObservableCollection<Point> DataSelectedY { get; set; }
         public ObservableCollection<Point> DataSelectedZ { get; set; }
+        public ObservableCollection<Point> DataBestX { get; set; }
+        public ObservableCollection<Point> DataBestY { get; set; }
+        public ObservableCollection<Point> DataBestZ { get; set; } 
+        public ObservableCollection<Point> DataHeight { get; set; }
+        public ObservableCollection<Point> StartPoint { get; set; }
+        public ObservableCollection<Point> EndPoint { get; set; }
         public Command C_BackToMenu { get; private set; }
         private RideData bestRide;
         private RideData selectedRide;
         public AnaliseViewModel()
         {
-            DataSelectedX = new ObservableCollection<Point>();
-            DataSelectedY = new ObservableCollection<Point>();
-            DataSelectedZ = new ObservableCollection<Point>();
+            this.DataSelectedX = new ObservableCollection<Point>();
+            this.DataSelectedY = new ObservableCollection<Point>();
+            this.DataSelectedZ = new ObservableCollection<Point>();
+            this.DataBestX = new ObservableCollection<Point>();
+            this.DataBestY = new ObservableCollection<Point>();
+            this.DataBestZ = new ObservableCollection<Point>();
+            this.DataHeight = new ObservableCollection<Point>();
+            this.StartPoint = new ObservableCollection<Point>();
+            this.EndPoint = new ObservableCollection<Point>();
 
             this.C_BackToMenu = new Command(BackToMenu);
             this.bestRide = new RideData();
@@ -57,13 +69,25 @@ namespace DownhillApp.ViewModel
             DataSelectedX.Clear();
             DataSelectedY.Clear();
             DataSelectedZ.Clear();
+            DataBestX.Clear();
+            DataBestY.Clear();
+            DataBestZ.Clear();
+            DataHeight.Clear();
+            StartPoint.Clear();
+            EndPoint.Clear();
             for (int i = 0; i < SelectedRide.Acceleration.Count; i++)
             {
                 double time = (double)i * ((double)(SelectedRide.Time) / (double)(SelectedRide.Acceleration.Count));
                 DataSelectedX.Add(new Point(time, SelectedRide.Acceleration[i][0]));
                 DataSelectedY.Add(new Point(time, SelectedRide.Acceleration[i][1]));
                 DataSelectedZ.Add(new Point(time, SelectedRide.Acceleration[i][2]));
+                DataBestX.Add(new Point(time, BestRide.Acceleration[i][0]));
+                DataBestY.Add(new Point(time, BestRide.Acceleration[i][1]));
+                DataBestZ.Add(new Point(time, BestRide.Acceleration[i][2]));
+                DataHeight.Add(new Point(time, SelectedRide.Height[i]));
             }
+            StartPoint.Add(DataHeight.First());
+            EndPoint.Add(DataHeight.Last());
         }
     }
 }
