@@ -1,6 +1,7 @@
 ﻿using DownhillApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,19 +10,21 @@ namespace DownhillApp.ViewModel
 {
     public class AnaliseViewModel : BaseViewModel
     {
+        public ObservableCollection<Point> DataSelectedX {  get; set; }
+        public ObservableCollection<Point> DataSelectedY { get; set; }
+        public ObservableCollection<Point> DataSelectedZ { get; set; }
         public Command C_BackToMenu { get; private set; }
         private RideData bestRide;
         private RideData selectedRide;
-        private Dictionary<float, float> data;
         public AnaliseViewModel()
         {
+            DataSelectedX = new ObservableCollection<Point>();
+            DataSelectedY = new ObservableCollection<Point>();
+            DataSelectedZ = new ObservableCollection<Point>();
+
             this.C_BackToMenu = new Command(BackToMenu);
-            
             this.bestRide = new RideData();
             this.selectedRide = new RideData();
-
-            this.Data = new Dictionary<float, float>();
-            ;
         }
 
         public RideData BestRide
@@ -44,16 +47,6 @@ namespace DownhillApp.ViewModel
             }
         }
 
-        public Dictionary<float, float> Data
-        {
-            get { return this.data; }
-            set
-            {
-                this.data = value;
-                OnPropertyChange();
-            }
-        }
-
         private async void BackToMenu()
         {
             await Shell.Current.GoToAsync("//MainPage");
@@ -61,12 +54,16 @@ namespace DownhillApp.ViewModel
 
         public void SetData()
         {
-            Dictionary<float, float> Temp = new Dictionary<float, float>();
+            DataSelectedX.Clear();
+            DataSelectedY.Clear();
+            DataSelectedZ.Clear();
             for (int i = 0; i < SelectedRide.Acceleration.Count; i++)
             {
-                Temp.Add(i, SelectedRide.Acceleration[i][2]);
+                double time = (double)i * ((double)(SelectedRide.Time) / (double)(SelectedRide.Acceleration.Count));
+                DataSelectedX.Add(new Point(time, SelectedRide.Acceleration[i][0]));
+                DataSelectedY.Add(new Point(time, SelectedRide.Acceleration[i][1]));
+                DataSelectedZ.Add(new Point(time, SelectedRide.Acceleration[i][2]));
             }
-            this.Data = Temp;
         }
     }
 }
