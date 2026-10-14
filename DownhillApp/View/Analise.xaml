@@ -72,12 +72,26 @@
 
 
             <chart:SfCartesianChart Margin="10" Background="Black">
+                <chart:SfCartesianChart.Resources>
+                    <DataTemplate x:Key="ball">
+                        
+                            <Grid BackgroundColor="Yellow" RowDefinitions="auto, auto" ColumnDefinitions="auto, auto">
+                                <Label Margin="2" TextColor="Black" Text="Magasság: "/>
+                                <Label Margin="2" TextColor="Black" Grid.Column="1" Text="{Binding DataItem.Y, StringFormat='{0:F2} m.'}"/>
+                                <Label Margin="2" TextColor="Black" Grid.Row="1" Text="Meredekség"/>
+                                <Label Margin="2" TextColor="Black" Grid.Row="1" Grid.Column="1" Text="..."/>
+                            </Grid>
+                        
+                    </DataTemplate>
+                </chart:SfCartesianChart.Resources>
+
+
                 <chart:SfCartesianChart.Title>
                     <Label Text="Height Profile" HorizontalOptions="Center" FontSize="Medium"/>
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
-                    <chart:NumericalAxis>
+                    <chart:NumericalAxis Interval="0.5" MinorTicksPerInterval="4">
                         <chart:NumericalAxis.Title>
                             <chart:ChartAxisTitle Text="Time (sec)" TextColor="purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
@@ -99,10 +113,22 @@
                 </chart:SfCartesianChart.YAxes>
 
                 <chart:SfCartesianChart.Series>
-                    <chart:AreaSeries ItemsSource="{Binding DataHeight}" XBindingPath="X" YBindingPath="Y" Fill="LightBlue" Stroke="Blue" StrokeWidth="3" Opacity="0.9" />
+                    <chart:AreaSeries TrackballLabelTemplate="{StaticResource ball}" ShowTrackballLabel="True" ItemsSource="{Binding DataHeight}" XBindingPath="X" YBindingPath="Y" Fill="LightBlue" Stroke="Blue" StrokeWidth="3" Opacity="0.9" />
                     <chart:ScatterSeries ItemsSource="{Binding StartPoint}" XBindingPath="X" YBindingPath="Y" Type="Circle" PointWidth="15" PointHeight="15" Fill="#32CD32" Stroke="#32CD32"/>
                     <chart:ScatterSeries ItemsSource="{Binding EndPoint}" XBindingPath="X" YBindingPath="Y" Type="Circle" PointWidth="15" PointHeight="15"  Fill="Red" Stroke="Red"/>
                 </chart:SfCartesianChart.Series>
+
+                <chart:SfCartesianChart.TrackballBehavior>
+                    <chart:ChartTrackballBehavior ShowLine="True" DisplayMode="NearestPoint">
+                        <chart:ChartTrackballBehavior.LabelStyle>
+                            <chart:ChartLabelStyle Background="Gold"/>
+                        </chart:ChartTrackballBehavior.LabelStyle>
+                        <chart:ChartTrackballBehavior.LineStyle>
+                            <chart:ChartLineStyle Stroke="BlueViolet" StrokeWidth="3" StrokeDashArray="1"/>
+                        </chart:ChartTrackballBehavior.LineStyle>
+                    </chart:ChartTrackballBehavior>
+                </chart:SfCartesianChart.TrackballBehavior>
+
             </chart:SfCartesianChart>
 
         </VerticalStackLayout>

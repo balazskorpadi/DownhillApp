@@ -84,7 +84,7 @@ namespace DownhillApp.ViewModel
                 DataBestX.Add(new Point(time, BestRide.Acceleration[i][0]));
                 DataBestY.Add(new Point(time, BestRide.Acceleration[i][1]));
                 DataBestZ.Add(new Point(time, BestRide.Acceleration[i][2]));
-                DataHeight.Add(new Point(time, SelectedRide.Height[i]));
+                DataHeight.Add(new Point(time, Math.Round(SelectedRide.Height[i],2)));
             }
             StartPoint.Add(DataHeight.First());
             EndPoint.Add(DataHeight.Last());
