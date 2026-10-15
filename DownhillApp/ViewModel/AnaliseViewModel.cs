@@ -22,6 +22,7 @@ namespace DownhillApp.ViewModel
         public Command C_BackToMenu { get; private set; }
         private RideData bestRide;
         private RideData selectedRide;
+        private double minHeight;
         public AnaliseViewModel()
         {
             this.DataSelectedX = new ObservableCollection<Point>();
@@ -37,6 +38,7 @@ namespace DownhillApp.ViewModel
             this.C_BackToMenu = new Command(BackToMenu);
             this.bestRide = new RideData();
             this.selectedRide = new RideData();
+            this.minHeight = 0;
         }
 
         public RideData BestRide
@@ -55,6 +57,16 @@ namespace DownhillApp.ViewModel
             set
             {
                 this.selectedRide = value;
+                OnPropertyChange();
+            }
+        }
+
+        public double MinHeight
+        {
+            get { return this.minHeight; }
+            set
+            {
+                this.minHeight = value;
                 OnPropertyChange();
             }
         }
@@ -88,6 +100,7 @@ namespace DownhillApp.ViewModel
             }
             StartPoint.Add(DataHeight.First());
             EndPoint.Add(DataHeight.Last());
+            this.MinHeight = Math.Round(DataHeight.Min(x => x.Y))-15;
         }
     }
 }

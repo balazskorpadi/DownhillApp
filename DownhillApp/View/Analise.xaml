@@ -76,9 +76,9 @@
                     <DataTemplate x:Key="ball">
                         
                             <Grid BackgroundColor="Yellow" RowDefinitions="auto, auto" ColumnDefinitions="auto, auto">
-                                <Label Margin="2" TextColor="Black" Text="Magasság: "/>
-                                <Label Margin="2" TextColor="Black" Grid.Column="1" Text="{Binding DataItem.Y, StringFormat='{0:F2} m.'}"/>
-                                <Label Margin="2" TextColor="Black" Grid.Row="1" Text="Meredekség"/>
+                                <Label Margin="2" TextColor="Black" Text="Height: "/>
+                                <Label Margin="2" TextColor="Black" Grid.Column="1" Text="{Binding DataItem.Y, StringFormat='{0:F2} m'}"/>
+                                <Label Margin="2" TextColor="Black" Grid.Row="1" Text="Grade: "/>
                                 <Label Margin="2" TextColor="Black" Grid.Row="1" Grid.Column="1" Text="..."/>
                             </Grid>
                         
@@ -102,7 +102,7 @@
                 </chart:SfCartesianChart.XAxes>
 
                 <chart:SfCartesianChart.YAxes>
-                    <chart:NumericalAxis Minimum="0">
+                    <chart:NumericalAxis Minimum="{Binding MinHeight}">
                         <chart:NumericalAxis.Title>
                             <chart:ChartAxisTitle Text="Amplitude (m)" TextColor="purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>

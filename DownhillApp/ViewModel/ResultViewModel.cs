@@ -44,6 +44,32 @@ namespace DownhillApp.ViewModel
 
         private async void BackToMenu()
         {
+            /*
+            Dummy adat hozzáadása
+            Kell egy selectedRide mert az alapján bindongol de utána jó minden :)
+
+            RideData temprd1 = new RideData(
+                "Cranky01",
+                "CrankyTeszt",
+                7,
+                new List<float[]>(SelectedRide.Acceleration),
+                new List<float[]>(SelectedRide.Rotation),
+                new List<float[]>(),
+                new List<float>()
+                );
+            ;
+            temprd1.Height.Add(200);
+            temprd1.Position.Add([47,19]);
+            for(int i = 1; i<28; i++)
+            {
+                temprd1.Height.Add(temprd1.Height[i-1]-(i%3));
+                temprd1.Position.Add([temprd1.Position[i - 1][0]+(i%2), temprd1.Position[i - 1][1] + (i%2)]);
+            }
+            ;
+            this.dataProvider.Create(temprd1);
+            */
+
+            
             await Shell.Current.GoToAsync("//MainPage");
         }
 
