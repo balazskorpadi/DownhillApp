@@ -12,6 +12,7 @@ namespace DownhillApp.ViewModel
 {
     public class ResultViewModel : BaseViewModel
     {
+        Random rnd = new Random();
         private IDataProvider dataProvider;
         public ObservableCollection<RideData> AllRides { get; set; }
         public Command C_BackToMenu { get; private set; }
@@ -45,25 +46,25 @@ namespace DownhillApp.ViewModel
         private async void BackToMenu()
         {
             /*
-            Dummy adat hozzáadása
-            Kell egy selectedRide mert az alapján bindongol de utána jó minden :)
+            //Dummy adat hozzáadása
+            //Kell egy selectedRide mert az alapján bindongol de utána jó minden :)
 
             RideData temprd1 = new RideData(
-                "Cranky01",
+                "Cranky02",
                 "CrankyTeszt",
-                7,
+                6,
                 new List<float[]>(SelectedRide.Acceleration),
                 new List<float[]>(SelectedRide.Rotation),
                 new List<float[]>(),
                 new List<float>()
                 );
-            ;
+            
             temprd1.Height.Add(200);
-            temprd1.Position.Add([47,19]);
+            temprd1.Position.Add(SelectedRide.Position[0]);
             for(int i = 1; i<28; i++)
             {
-                temprd1.Height.Add(temprd1.Height[i-1]-(i%3));
-                temprd1.Position.Add([temprd1.Position[i - 1][0]+(i%2), temprd1.Position[i - 1][1] + (i%2)]);
+                temprd1.Height.Add(temprd1.Height[i-1]-(rnd.Next(1,10)));
+                temprd1.Position.Add([temprd1.Position[i - 1][0]+((float)rnd.Next(1, 6) / 100000.000000F), temprd1.Position[i - 1][1] + ((float)rnd.Next(1,6)/ 100000.000000F)]);
             }
             ;
             this.dataProvider.Create(temprd1);

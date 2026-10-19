@@ -36,9 +36,9 @@
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
-                    <chart:NumericalAxis Interval="0.5">
+                    <chart:NumericalAxis Interval="2.5">
                         <chart:NumericalAxis.Title>
-                            <chart:ChartAxisTitle Text="Time (sec)" TextColor="Purple" FontSize="20"/>
+                            <chart:ChartAxisTitle Text="Distance (m)" TextColor="Purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
                         <chart:NumericalAxis.LabelStyle>
                             <chart:ChartAxisLabelStyle TextColor="White" FontSize="10"/>
@@ -77,9 +77,9 @@
                         
                             <Grid BackgroundColor="Yellow" RowDefinitions="auto, auto" ColumnDefinitions="auto, auto">
                                 <Label Margin="2" TextColor="Black" Text="Height: "/>
-                                <Label Margin="2" TextColor="Black" Grid.Column="1" Text="{Binding DataItem.Y, StringFormat='{0:F2} m'}"/>
+                                <Label Margin="2" TextColor="Black" Grid.Column="1" Text="{Binding DataItem.Height, StringFormat='{0:F2} m'}"/>
                                 <Label Margin="2" TextColor="Black" Grid.Row="1" Text="Grade: "/>
-                                <Label Margin="2" TextColor="Black" Grid.Row="1" Grid.Column="1" Text="..."/>
+                            <Label Margin="2" TextColor="Black" Grid.Row="1" Grid.Column="1" Text="{Binding DataItem.Grade, StringFormat='{0:F2} %'}"/>
                             </Grid>
                         
                     </DataTemplate>
@@ -91,9 +91,9 @@
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
-                    <chart:NumericalAxis Interval="0.5" MinorTicksPerInterval="4">
+                    <chart:NumericalAxis Interval="5" MinorTicksPerInterval="4">
                         <chart:NumericalAxis.Title>
-                            <chart:ChartAxisTitle Text="Time (sec)" TextColor="purple" FontSize="20"/>
+                            <chart:ChartAxisTitle Text="Distance (m)" TextColor="purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
                         <chart:NumericalAxis.LabelStyle>
                             <chart:ChartAxisLabelStyle TextColor="White" FontSize="10"/>
@@ -113,7 +113,7 @@
                 </chart:SfCartesianChart.YAxes>
 
                 <chart:SfCartesianChart.Series>
-                    <chart:AreaSeries TrackballLabelTemplate="{StaticResource ball}" ShowTrackballLabel="True" ItemsSource="{Binding DataHeight}" XBindingPath="X" YBindingPath="Y" Fill="LightBlue" Stroke="Blue" StrokeWidth="3" Opacity="0.9" />
+                    <chart:AreaSeries TrackballLabelTemplate="{StaticResource ball}" ShowTrackballLabel="True" ItemsSource="{Binding DataForHeight}" XBindingPath="X" YBindingPath="Height" Fill="LightBlue" Stroke="Blue" StrokeWidth="3" Opacity="0.9" />
                     <chart:ScatterSeries ItemsSource="{Binding StartPoint}" XBindingPath="X" YBindingPath="Y" Type="Circle" PointWidth="15" PointHeight="15" Fill="#32CD32" Stroke="#32CD32"/>
                     <chart:ScatterSeries ItemsSource="{Binding EndPoint}" XBindingPath="X" YBindingPath="Y" Type="Circle" PointWidth="15" PointHeight="15"  Fill="Red" Stroke="Red"/>
                 </chart:SfCartesianChart.Series>
