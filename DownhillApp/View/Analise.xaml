@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
              x:Class="DownhillApp.View.Analise"
-             Title="Analise">
+             Title="Analyse">
     <ScrollView>
         <VerticalStackLayout>
-            <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
+            
             <Label Text="This is the best ride in this Group" FontSize="Medium" HorizontalOptions="Center" Margin="10,30,10,0"/>
             <Border Stroke="Purple" StrokeThickness="5" Margin="10">
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*">
@@ -14,25 +14,27 @@
                     <Label Margin="10" Grid.Column="1" HorizontalTextAlignment="Center" Text="Time"/>
                     <Label Margin="10" Grid.Column="2" HorizontalTextAlignment="Center" Text="Groupname"/>
                     <Label Margin="10" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding BestRide.Name}"/>
-                    <Label Margin="10" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding BestRide.Time}"/>
+                    <Label Margin="10" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding BestRide.Time, StringFormat='{0} sec'}"/>
                     <Label Margin="10" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding BestRide.GroupName}"/>
                 </Grid>
             </Border>
-            <Label Text="Analiseing selected ride" FontSize="Medium" HorizontalOptions="Center" Margin="10,30,10,0"/>
+            <Label Text="Selected ride" FontSize="Medium" HorizontalOptions="Center" Margin="10,30,10,0"/>
             <Border Stroke="Purple" StrokeThickness="5" Margin="10">
-                <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*">
+                <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*">
                     <Label Margin="10" Grid.Column="0" HorizontalTextAlignment="Center" Text="Name"/>
                     <Label Margin="10" Grid.Column="1" HorizontalTextAlignment="Center" Text="Time"/>
-                    <Label Margin="10" Grid.Column="2" HorizontalTextAlignment="Center" Text="Groupname"/>
+                    <Label Margin="10" Grid.Column="2" HorizontalTextAlignment="Center" Text="Distance"/>
+                    <Label Margin="10" Grid.Column="3" HorizontalTextAlignment="Center" Text="Groupname"/>
                     <Label Margin="10" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding SelectedRide.Name}"/>
-                    <Label Margin="10" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding SelectedRide.Time}"/>
-                    <Label Margin="10" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding SelectedRide.GroupName}"/>
+                    <Label Margin="10" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding SelectedRide.Time, StringFormat='{0} sec'}"/>
+                    <Label Margin="10" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding MaxDistance, StringFormat='{0:F2} m'}"/>
+                    <Label Margin="10" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding SelectedRide.GroupName}"/>
                 </Grid>
             </Border>
 
             <chart:SfCartesianChart Margin="10" Background="black">
                 <chart:SfCartesianChart.Title>
-                    <Label Text="Z-axis acceleration" HorizontalOptions="Center" FontSize="Medium"/>
+                    <Label Text="Acceleration" HorizontalOptions="Center" FontSize="Medium"/>
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
@@ -47,7 +49,7 @@
                 </chart:SfCartesianChart.XAxes>
 
                 <chart:SfCartesianChart.YAxes>
-                    <chart:NumericalAxis Interval="0.125">
+                    <chart:NumericalAxis Interval="2">
                         <chart:NumericalAxis.Title>
                             <chart:ChartAxisTitle Text="Acceleration (m/s^2)" TextColor="Purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
@@ -57,16 +59,16 @@
                     </chart:NumericalAxis>
                 </chart:SfCartesianChart.YAxes>
 
-                <chart:SplineSeries ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedZ}" XBindingPath="X" YBindingPath="Y">
-                    <chart:SplineSeries.Trendlines>
-                        <chart:ExponentialTrendline IsVisible="False" StrokeWidth="5"/>
-                    </chart:SplineSeries.Trendlines>
-                </chart:SplineSeries>
-                <chart:SplineSeries ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataBestZ}" XBindingPath="X" YBindingPath="Y">
-                    <chart:SplineSeries.Trendlines>
-                        <chart:ExponentialTrendline IsVisible="False" StrokeWidth="5"/>
-                    </chart:SplineSeries.Trendlines>
-                </chart:SplineSeries>
+                <chart:SplineSeries Label="Acceleration X" Fill="Red" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelected}" XBindingPath="AxisX" YBindingPath="DataX"/>
+                <chart:SplineSeries Label="Acceleration Y" Fill="Gold" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelected}" XBindingPath="AxisX" YBindingPath="DataY"/>
+                <chart:SplineSeries Label="Acceleration Z" Fill="Green" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelected}" XBindingPath="AxisX" YBindingPath="DataZ"/>
+                <chart:SfCartesianChart.Legend>
+                    <chart:ChartLegend>
+                        <chart:ChartLegend.LabelStyle>
+                            <chart:ChartLegendLabelStyle TextColor="White"/>
+                        </chart:ChartLegend.LabelStyle>
+                    </chart:ChartLegend>
+                </chart:SfCartesianChart.Legend>
             </chart:SfCartesianChart>
 
 
@@ -91,7 +93,7 @@
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
-                    <chart:NumericalAxis Interval="5" MinorTicksPerInterval="4">
+                    <chart:NumericalAxis PlotOffsetStart="10" PlotOffsetEnd="10" ShowMajorGridLines="True" ShowMinorGridLines="False" Interval="5" MinorTicksPerInterval="4">
                         <chart:NumericalAxis.Title>
                             <chart:ChartAxisTitle Text="Distance (m)" TextColor="purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
@@ -102,7 +104,7 @@
                 </chart:SfCartesianChart.XAxes>
 
                 <chart:SfCartesianChart.YAxes>
-                    <chart:NumericalAxis Minimum="{Binding MinHeight}">
+                    <chart:NumericalAxis PlotOffsetEnd="10" ShowMajorGridLines="True" ShowMinorGridLines="False" Interval="10" Minimum="{Binding MinHeight}">
                         <chart:NumericalAxis.Title>
                             <chart:ChartAxisTitle Text="Amplitude (m)" TextColor="purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
@@ -126,11 +128,14 @@
                         <chart:ChartTrackballBehavior.LineStyle>
                             <chart:ChartLineStyle Stroke="BlueViolet" StrokeWidth="3" StrokeDashArray="1"/>
                         </chart:ChartTrackballBehavior.LineStyle>
+                        <chart:ChartTrackballBehavior.MarkerSettings>
+                            <chart:ChartMarkerSettings Height="15" Width="15" Fill="Orange"/>
+                        </chart:ChartTrackballBehavior.MarkerSettings>
                     </chart:ChartTrackballBehavior>
                 </chart:SfCartesianChart.TrackballBehavior>
 
             </chart:SfCartesianChart>
-
+            <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
