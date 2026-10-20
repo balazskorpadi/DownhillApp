@@ -8,19 +8,6 @@ using System.Threading.Tasks;
 
 namespace DownhillApp.ViewModel
 {
-    public class HeightProfilePoint
-    {
-        public double X { get; set; }
-        public double Height { get; set; }
-        public double Grade { get; set; }
-
-        public HeightProfilePoint(double x, double height, double grade)
-        {
-            X = x;
-            Height = height;
-            Grade = grade;
-        }
-    }
     public class AnaliseViewModel : BaseViewModel
     {
         public ObservableCollection<Point> DataSelectedX {  get; set; }
@@ -32,7 +19,6 @@ namespace DownhillApp.ViewModel
         public ObservableCollection<HeightProfilePoint> DataForHeight { get; set; }
         public ObservableCollection<Point> StartPoint { get; set; }
         public ObservableCollection<Point> EndPoint { get; set; }
-        //public ObservableCollection<Point> DataGrade { get; set; }
         public Command C_BackToMenu { get; private set; }
         private RideData bestRide;
         private RideData selectedRide;
@@ -50,7 +36,6 @@ namespace DownhillApp.ViewModel
             this.DataForHeight = new ObservableCollection<HeightProfilePoint>();
             this.StartPoint = new ObservableCollection<Point>();
             this.EndPoint = new ObservableCollection<Point>();
-            //this.DataGrade = new ObservableCollection<Point>();
 
             this.C_BackToMenu = new Command(BackToMenu);
             this.bestRide = new RideData();
@@ -120,8 +105,6 @@ namespace DownhillApp.ViewModel
         {
             DataForHeight.Clear();
             DataForHeight.Add(new HeightProfilePoint(0.0, Math.Round(SelectedRide.Height[0], 2), 0.0));
-            //DataGrade.Clear();
-            //DataGrade.Add(new Point(0.0, 0.0));
             Distance.Clear();
             Distance.Add(0);
             AllDistance.Clear();
@@ -132,9 +115,7 @@ namespace DownhillApp.ViewModel
                 Distance.Add(CalculateDistance(SelectedRide.Position[i - 1][0], SelectedRide.Position[i - 1][1], SelectedRide.Position[i][0], SelectedRide.Position[i][1]));
                 AllDistance.Add(AllDistance[i - 1] + Distance[i]);
                 DataForHeight.Add(new HeightProfilePoint(AllDistance[i], Math.Round(SelectedRide.Height[i], 2),0.0));
-                //double nextGrade = ((DataHeight[i].Y - DataHeight[i-1].Y) / Distance[i]) * 100.0;
                 DataForHeight[i].Grade = ((DataForHeight[i].Height - DataForHeight[i - 1].Height) / Distance[i]) * 100.0;
-                //DataGrade.Add(new Point(AllDistance[i], nextGrade));
             }
             ;
             DataSelectedX.Clear();
