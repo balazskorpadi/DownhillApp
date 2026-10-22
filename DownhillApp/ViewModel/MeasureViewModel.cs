@@ -23,7 +23,7 @@ namespace DownhillApp.ViewModel
         public Command C_AddNewGroup { get; private set; }
         public Command C_SaveRide { get; set; }
 
-        private static string IPAddress = "http://10.74.201.11";
+        private static string IPAddress = "http://192.168.0.82";
         private string currentData;
         private string currentGps;
         private List<string> allData;
@@ -170,9 +170,9 @@ namespace DownhillApp.ViewModel
 
         private void SetDefault()
         {           
-            AllMeasure = new ObservableCollection<string>();
-            allData = new List<string>();
-            allGps = new List<string>();
+            AllMeasure.Clear();
+            allData.Clear();
+            allGps.Clear();
             Name = "";
             SelectedGroup = "";
             this.RideTime = 0;

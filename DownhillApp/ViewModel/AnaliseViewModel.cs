@@ -11,6 +11,7 @@ namespace DownhillApp.ViewModel
     public class AnaliseViewModel : BaseViewModel
     {
         public ObservableCollection<ChartPoint> DataSelectedAcc { get; set; }
+        public ObservableCollection<ChartPoint> DataSelectedRot { get; set; }
         public ObservableCollection<ChartPoint> DataBestAcc { get; set; }
         public ObservableCollection<HeightProfilePoint> DataForHeight { get; set; }
         public ObservableCollection<Point> StartPoint { get; set; }
@@ -25,6 +26,7 @@ namespace DownhillApp.ViewModel
         public AnaliseViewModel()
         {
             this.DataSelectedAcc = new ObservableCollection<ChartPoint>();
+            this.DataSelectedRot = new ObservableCollection<ChartPoint>();
             this.DataBestAcc = new ObservableCollection<ChartPoint>();
             this.DataForHeight = new ObservableCollection<HeightProfilePoint>();
             this.StartPoint = new ObservableCollection<Point>();
@@ -128,6 +130,7 @@ namespace DownhillApp.ViewModel
             MaxDistance = AllDistance.Last();
             
             DataSelectedAcc.Clear();
+            DataSelectedRot.Clear();
             DataBestAcc.Clear();
             
             StartPoint.Clear();
@@ -136,6 +139,7 @@ namespace DownhillApp.ViewModel
             {
                 double d = AllDistance[i];
                 DataSelectedAcc.Add(new ChartPoint(d, SelectedRide.Acceleration[i][0], SelectedRide.Acceleration[i][1], SelectedRide.Acceleration[i][2]));
+                DataSelectedRot.Add(new ChartPoint(d, SelectedRide.Rotation[i][0], SelectedRide.Rotation[i][1], SelectedRide.Rotation[i][2]));
             }
             for(int i= 0; i<bestRide.Acceleration.Count; i++)
             {
