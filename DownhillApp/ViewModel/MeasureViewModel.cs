@@ -23,7 +23,7 @@ namespace DownhillApp.ViewModel
         public Command C_AddNewGroup { get; private set; }
         public Command C_SaveRide { get; set; }
 
-        private static string IPAddress = "http://192.168.4.11";
+        private static string IPAddress = "http://10.74.201.11";
         private string currentData;
         private string currentGps;
         private List<string> allData;

@@ -10,14 +10,8 @@ namespace DownhillApp.ViewModel
 {
     public class AnaliseViewModel : BaseViewModel
     {
-        //public ObservableCollection<Point> DataSelectedX {  get; set; }
-        //public ObservableCollection<Point> DataSelectedY { get; set; }
-        //public ObservableCollection<Point> DataSelectedZ { get; set; }
-
-        public ObservableCollection<ChartPoint> DataSelected { get; set; }
-        public ObservableCollection<Point> DataBestX { get; set; }
-        public ObservableCollection<Point> DataBestY { get; set; }
-        public ObservableCollection<Point> DataBestZ { get; set; } 
+        public ObservableCollection<ChartPoint> DataSelectedAcc { get; set; }
+        public ObservableCollection<ChartPoint> DataBestAcc { get; set; }
         public ObservableCollection<HeightProfilePoint> DataForHeight { get; set; }
         public ObservableCollection<Point> StartPoint { get; set; }
         public ObservableCollection<Point> EndPoint { get; set; }
@@ -30,13 +24,8 @@ namespace DownhillApp.ViewModel
         private double maxDistance;
         public AnaliseViewModel()
         {
-            //this.DataSelectedX = new ObservableCollection<Point>();
-            //this.DataSelectedY = new ObservableCollection<Point>();
-            //this.DataSelectedZ = new ObservableCollection<Point>();
-            this.DataSelected = new ObservableCollection<ChartPoint>();
-            this.DataBestX = new ObservableCollection<Point>();
-            this.DataBestY = new ObservableCollection<Point>();
-            this.DataBestZ = new ObservableCollection<Point>();
+            this.DataSelectedAcc = new ObservableCollection<ChartPoint>();
+            this.DataBestAcc = new ObservableCollection<ChartPoint>();
             this.DataForHeight = new ObservableCollection<HeightProfilePoint>();
             this.StartPoint = new ObservableCollection<Point>();
             this.EndPoint = new ObservableCollection<Point>();
@@ -128,33 +117,32 @@ namespace DownhillApp.ViewModel
             {
                 double time = (double)i * ((double)(SelectedRide.Time) / (double)(SelectedRide.Acceleration.Count));
                 Distance.Add(CalculateDistance(SelectedRide.Position[i - 1][0], SelectedRide.Position[i - 1][1], SelectedRide.Position[i][0], SelectedRide.Position[i][1]));
+                if (Distance[i] <= 0.5)
+                {
+                    Distance[i] = 0.0;
+                }
                 AllDistance.Add(AllDistance[i - 1] + Distance[i]);
                 DataForHeight.Add(new HeightProfilePoint(AllDistance[i], Math.Round(SelectedRide.Height[i], 2),0.0));
                 DataForHeight[i].Grade = ((DataForHeight[i].Height - DataForHeight[i - 1].Height) / Distance[i]) * 100.0;
             }
             MaxDistance = AllDistance.Last();
             
-            //DataSelectedX.Clear();
-            //DataSelectedY.Clear();
-            //DataSelectedZ.Clear();
-            DataSelected.Clear();
-            DataBestX.Clear();
-            DataBestY.Clear();
-            DataBestZ.Clear();
+            DataSelectedAcc.Clear();
+            DataBestAcc.Clear();
             
             StartPoint.Clear();
             EndPoint.Clear();
             for (int i = 0; i < SelectedRide.Acceleration.Count; i++)
             {
                 double d = AllDistance[i];
-                //DataSelectedX.Add(new Point(d, SelectedRide.Acceleration[i][0]));
-                //DataSelectedY.Add(new Point(d, SelectedRide.Acceleration[i][1]));
-                //DataSelectedZ.Add(new Point(d, SelectedRide.Acceleration[i][2]));
-                DataSelected.Add(new ChartPoint(d, SelectedRide.Acceleration[i][0], SelectedRide.Acceleration[i][1], SelectedRide.Acceleration[i][2]));
-                DataBestX.Add(new Point(d, BestRide.Acceleration[i][0]));
-                DataBestY.Add(new Point(d, BestRide.Acceleration[i][1]));
-                DataBestZ.Add(new Point(d, BestRide.Acceleration[i][2]));               
+                DataSelectedAcc.Add(new ChartPoint(d, SelectedRide.Acceleration[i][0], SelectedRide.Acceleration[i][1], SelectedRide.Acceleration[i][2]));
             }
+            for(int i= 0; i<bestRide.Acceleration.Count; i++)
+            {
+                double d = AllDistance[i];
+                DataBestAcc.Add(new ChartPoint(d, BestRide.Acceleration[i][0], BestRide.Acceleration[i][1], BestRide.Acceleration[i][2]));
+            }
+
             StartPoint.Add(new Point(DataForHeight.First().X, DataForHeight.First().Height));
             EndPoint.Add(new Point(DataForHeight.Last().X, DataForHeight.Last().Height));
             this.MinHeight = Math.Round(DataForHeight.Min(x => x.Height))-15;
