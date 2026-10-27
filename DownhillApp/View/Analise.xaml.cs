@@ -11,7 +11,7 @@ public partial class Analise : ContentPage
 	{
 		InitializeComponent();
 		this.BindingContext = new AnaliseViewModel();
-	}
+    }
 
 	public RideData Best
 	{
@@ -34,5 +34,23 @@ public partial class Analise : ContentPage
 				vm.SetData();
             }
 		}
+	}
+
+	private async void GoToMap(object sender, WebNavigatedEventArgs e)
+	{
+		if(e.Result == WebNavigationResult.Success)
+		{
+			await DrawRoute();
+		}
+	}
+
+	private async Task DrawRoute()
+	{
+		if(BindingContext is AnaliseViewModel vm)
+		{
+			string data = vm.SelectedRide.PositionJson;
+			await SelectedRideMap.EvaluateJavaScriptAsync($"DrawRoute({data})");
+
+        }
 	}
 }

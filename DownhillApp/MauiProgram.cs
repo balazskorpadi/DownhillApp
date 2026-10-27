@@ -16,6 +16,9 @@ namespace DownhillApp
             builder
                 .UseMauiApp<App>()
                 .ConfigureSyncfusionCore()
+#if IOS
+                .UseMauiMaps()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
