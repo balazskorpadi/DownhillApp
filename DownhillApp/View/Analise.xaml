@@ -146,7 +146,7 @@
             <!--Selected Ride Rotation Chart-->
             <chart:SfCartesianChart Margin="10" Background="black">
                 <chart:SfCartesianChart.Title>
-                    <Label Text="Acceleration" HorizontalOptions="Center" FontSize="Medium"/>
+                    <Label Text="Rotation" HorizontalOptions="Center" FontSize="Medium"/>
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
@@ -163,7 +163,7 @@
                 <chart:SfCartesianChart.YAxes>
                     <chart:NumericalAxis Interval="2">
                         <chart:NumericalAxis.Title>
-                            <chart:ChartAxisTitle Text="Acceleration (m/s^2)" TextColor="Purple" FontSize="20"/>
+                            <chart:ChartAxisTitle Text="Rotation (°/s^2)" TextColor="Purple" FontSize="20"/>
                         </chart:NumericalAxis.Title>
                         <chart:NumericalAxis.LabelStyle>
                             <chart:ChartAxisLabelStyle TextColor="White" FontSize="10"/>
@@ -171,9 +171,9 @@
                     </chart:NumericalAxis>
                 </chart:SfCartesianChart.YAxes>
 
-                <chart:SplineSeries Label="Acceleration X" Fill="Red" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataX"/>
-                <chart:SplineSeries Label="Acceleration Y" Fill="Gold" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataY"/>
-                <chart:SplineSeries Label="Acceleration Z" Fill="Green" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataZ"/>
+                <chart:SplineSeries Label="Rotation X" Fill="Red" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataX"/>
+                <chart:SplineSeries Label="Rotation Y" Fill="Gold" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataY"/>
+                <chart:SplineSeries Label="Rotation Z" Fill="Green" ShowMarkers="True" StrokeWidth="4" ItemsSource="{Binding DataSelectedRot}" XBindingPath="AxisX" YBindingPath="DataZ"/>
 
                 <chart:SfCartesianChart.Legend>
                     <chart:ChartLegend>
