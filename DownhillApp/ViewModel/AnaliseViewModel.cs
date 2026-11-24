@@ -20,6 +20,7 @@ namespace DownhillApp.ViewModel
         public ObservableCollection<Point> EndPoint { get; set; }
         public Command C_BackToMenu { get; private set; }
         public Command C_Gemini { get; private set; }
+        public Command C_Statistic { get; set; }
         private RideData bestRide;
         private RideData selectedRide;
         private double minHeight;
@@ -27,8 +28,8 @@ namespace DownhillApp.ViewModel
         private List<double> allDistance;
         private double maxDistance;
         private string geminiResponse;
-        private double[,] corrAccData;
-        private double[,] corrRotData;
+        public double[,] corrAccData;
+        public double[,] corrRotData;
         public AnaliseViewModel(IGeminiAiService service)
         {
             this.geminiService = service;
@@ -215,8 +216,9 @@ namespace DownhillApp.ViewModel
             return result;
         }
 
-        private void SetCorreletionData()
+        public void SetCorreletionData()
         {
+            //Aceleration
             double SelectedAccXAvg = SelectedRide.Acceleration.Average(x => x[0]);
             double SelectedAccYAvg = SelectedRide.Acceleration.Average(x => x[1]);
             double SelectedAccZAvg = SelectedRide.Acceleration.Average(x => x[2]);
@@ -224,10 +226,86 @@ namespace DownhillApp.ViewModel
             double BestAccYAvg = BestRide.Acceleration.Average(x => x[1]);
             double BestAccZAvg = BestRide.Acceleration.Average(x => x[2]);
 
-            double[] tempDatas = [SelectedAccXAvg, SelectedAccYAvg, SelectedAccZAvg, BestAccXAvg, BestAccYAvg, BestAccZAvg];
+            double[] tempAvg = [SelectedAccXAvg, SelectedAccYAvg, SelectedAccZAvg, BestAccXAvg, BestAccYAvg, BestAccZAvg];
+            double[][] tempData =
+                [
+                SelectedRide.Acceleration.Select(x => (double)x[0]).ToArray(),
+                SelectedRide.Acceleration.Select(x => (double)x[1]).ToArray(),
+                SelectedRide.Acceleration.Select(x => (double)x[2]).ToArray(),
+                BestRide.Acceleration.Select(x => (double)x[0]).ToArray(),
+                BestRide.Acceleration.Select(x => (double)x[1]).ToArray(),
+                BestRide.Acceleration.Select(x => (double)x[2]).ToArray()
+                ];
 
+            
+            for(int i = 0; i<6; i++)
+            {
+                for(int e = 0; e<6; e++)
+                {
+                    int n = Math.Min(tempData[i].Length , tempData[e].Length);
+                    double numerator = 0;
+                    double denominatorX = 0;
+                    double denominatorY = 0;
+
+                    for(int j = 0; j<n; j++)
+                    {
+                        double dx = tempData[i][j] - tempAvg[i];
+                        double dy = tempData[e][j] - tempAvg[e];
+
+                        numerator += dx * dy;
+                        denominatorX += dx * dx;
+                        denominatorY += dy * dy;
+                    }
+
+                    double denominator = Math.Sqrt(denominatorX * denominatorY);
+                    corrAccData[i, e] = numerator/ denominator;
+                }
+            }
+
+            //Rotation
+            double SelectedRotXAvg = SelectedRide.Rotation.Average(x => x[0]);
+            double SelectedRotYAvg = SelectedRide.Rotation.Average(x => x[1]);
+            double SelectedRotZAvg = SelectedRide.Rotation.Average(x => x[2]);
+            double BestRotXAvg = BestRide.Rotation.Average(x => x[0]);
+            double BestRotYAvg = BestRide.Rotation.Average(x => x[1]);
+            double BestRotZAvg = BestRide.Rotation.Average(x => x[2]);
+
+            tempAvg = [SelectedRotXAvg, SelectedRotYAvg, SelectedRotZAvg, BestRotXAvg, BestRotYAvg, BestRotZAvg];
+            tempData =
+                [
+                SelectedRide.Rotation.Select(x => (double)x[0]).ToArray(),
+                SelectedRide.Rotation.Select(x => (double)x[1]).ToArray(),
+                SelectedRide.Rotation.Select(x => (double)x[2]).ToArray(),
+                BestRide.Rotation.Select(x => (double)x[0]).ToArray(),
+                BestRide.Rotation.Select(x => (double)x[1]).ToArray(),
+                BestRide.Rotation.Select(x => (double)x[2]).ToArray()
+                ];
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                for (int e = 0; e < 6; e++)
+                {
+                    int n = Math.Min(tempData[i].Length, tempData[e].Length);
+                    double numerator = 0;
+                    double denominatorX = 0;
+                    double denominatorY = 0;
+
+                    for (int j = 0; j < n; j++)
+                    {
+                        double dx = tempData[i][j] - tempAvg[i];
+                        double dy = tempData[e][j] - tempAvg[e];
+
+                        numerator += dx * dy;
+                        denominatorX += dx * dx;
+                        denominatorY += dy * dy;
+                    }
+
+                    double denominator = Math.Sqrt(denominatorX * denominatorY);
+                    corrRotData[i, e] = numerator / denominator;
+                }
+            }
         }
-
 
     }
 }
