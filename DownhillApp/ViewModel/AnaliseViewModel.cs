@@ -1,4 +1,5 @@
 ﻿using DownhillApp.Model;
+using DownhillApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ namespace DownhillApp.ViewModel
 {
     public class AnaliseViewModel : BaseViewModel
     {
+        private IGeminiAiService geminiService;
         public ObservableCollection<ChartPoint> DataSelectedAcc { get; set; }
         public ObservableCollection<ChartPoint> DataSelectedRot { get; set; }
         public ObservableCollection<ChartPoint> DataBestAcc { get; set; }
@@ -17,14 +19,18 @@ namespace DownhillApp.ViewModel
         public ObservableCollection<Point> StartPoint { get; set; }
         public ObservableCollection<Point> EndPoint { get; set; }
         public Command C_BackToMenu { get; private set; }
+        public Command C_Gemini { get; private set; }
         private RideData bestRide;
         private RideData selectedRide;
         private double minHeight;
         private List<double> distance;
         private List<double> allDistance;
         private double maxDistance;
-        public AnaliseViewModel()
+        private string geminiResponse;
+        public AnaliseViewModel(IGeminiAiService service)
         {
+            this.geminiService = service;
+            
             this.DataSelectedAcc = new ObservableCollection<ChartPoint>();
             this.DataSelectedRot = new ObservableCollection<ChartPoint>();
             this.DataBestAcc = new ObservableCollection<ChartPoint>();
@@ -33,12 +39,14 @@ namespace DownhillApp.ViewModel
             this.EndPoint = new ObservableCollection<Point>();
 
             this.C_BackToMenu = new Command(BackToMenu);
+            this.C_Gemini = new Command(() => GetResponse());
             this.bestRide = new RideData();
             this.selectedRide = new RideData();
             this.minHeight = 0.0;
             this.distance = new List<double>();
             this.allDistance = new List<double>();
             this.maxDistance = 0.0;
+            this.geminiResponse = "";
 
         }
 
@@ -102,9 +110,48 @@ namespace DownhillApp.ViewModel
             }
         }
 
+        public string GeminiResponse
+        {
+            get { return this.geminiResponse; }
+            set
+            {
+                this.geminiResponse = value;
+                OnPropertyChange();
+            }
+        }
+
         private async void BackToMenu()
         {
             await Shell.Current.GoToAsync("//MainPage");
+        }
+
+        private async void GetResponse()
+        {
+            this.GeminiResponse = "Waiting for result...";
+            string promt = $"There are two measures downhill rides in the same track. I give you the acceleration, rotation, time data and the coordinates." +
+                $"This is the list with the coordinates of the track: {this.SelectedRide.Position} and the height for each coordinate {this.SelectedRide.Height}" +
+                $"First is the Selected Ride:" +
+                $"Acceleration: {this.SelectedRide.AccelerationJson}" +
+                $"Rotation: {this.SelectedRide.Rotation}" +
+                $"Time: {this.SelectedRide.Time}" +
+                $"The second one is the best measured ride in the same track:" +
+                $"Acceleration: {this.BestRide.AccelerationJson}" +
+                $"Rotation: {this.BestRide.Rotation}" +
+                $"Time: {this.BestRide.Time}" +
+                $"Simulate the track with the given coordinates and analise the Selected ride and give 2 or 3 bulletpointed respose about the performance of the rider." +
+                $"After that analise the best ride as well and compare it with the selected ride and give 2 or 3 response about the main differences in the two measures." +
+                $"The goal is to give the rider a releable response about his performance and show him how to get better." +
+                $"The form of the response should look like this:" +
+                $"Selected Ride analised:" +
+                $"-" +
+                $"-" +
+                $"-" +
+                $"Difference between the best ride:" +
+                $"-" +
+                $"-" +
+                $"-";
+            this.GeminiResponse = await this.geminiService.GetResponse(promt);
+            //this.GeminiResponse += "\nDONE";
         }
 
         public void SetData()

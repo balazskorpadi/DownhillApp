@@ -1,4 +1,5 @@
 using DownhillApp.Model;
+using DownhillApp.Service;
 using DownhillApp.ViewModel;
 
 namespace DownhillApp.View;
@@ -7,10 +8,11 @@ namespace DownhillApp.View;
 [QueryProperty(nameof(Selected), "choosenRide")]
 public partial class Analise : ContentPage
 {
+	IGeminiAiService service = ServiceHandler.Service.GetService<IGeminiAiService>();
 	public Analise()
 	{
 		InitializeComponent();
-		this.BindingContext = new AnaliseViewModel();
+		this.BindingContext = new AnaliseViewModel(service);
     }
 
 	public RideData Best

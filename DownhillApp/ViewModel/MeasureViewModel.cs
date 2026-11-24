@@ -103,8 +103,8 @@ namespace DownhillApp.ViewModel
 
         private async void BackToMenu()
         {
-            await _httpClient.GetAsync(IPAddress + "/stop");
-            SetDefault();
+            //await _httpClient.GetAsync(IPAddress + "/stop");
+            //SetDefault();
             await Shell.Current.GoToAsync("//MainPage");
         }
 
