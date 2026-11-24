@@ -183,8 +183,19 @@
                     </chart:ChartLegend>
                 </chart:SfCartesianChart.Legend>
             </chart:SfCartesianChart>
+            <!--Tables-->
+            <!--Corrlelation Acceleration-->
+            <Grid x:Name="CorrAcc" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2">
+                
+            </Grid>
+            <!--Korrlation Rotation-->
+            <Grid x:Name="CorrRot" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2">
+
+            </Grid>
+            <!--AI modell with datas-->
             <Button Text="Analyse my ride" Command="{Binding C_Gemini}" Margin="10"/>
             <Label Text="{Binding GeminiResponse}" Margin="10"/>
+            
             <Button Text="Back to Menu" Command="{Binding C_BackToMenu}" Margin="10"/>
         </VerticalStackLayout>
     </ScrollView>

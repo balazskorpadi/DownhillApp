@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +13,9 @@ namespace DownhillApp.ViewModel
 {
     public class MeasureViewModel : BaseViewModel
     {
-        private readonly HttpClient _httpClient;
-        private IDispatcherTimer timer;
+        //private readonly HttpClient _httpClient;
+        private ClientWebSocket _webSocket;
+        //private IDispatcherTimer timer;
         private IDataProvider dataProvider;
         public ObservableCollection<string> AllGroup { get; set; }
         public ObservableCollection<string> AllMeasure { get; set; }
@@ -23,7 +25,7 @@ namespace DownhillApp.ViewModel
         public Command C_AddNewGroup { get; private set; }
         public Command C_SaveRide { get; set; }
 
-        private static string IPAddress = "http://192.168.0.82";
+        private static string IPAddress = "192.168.0.82";
         private string currentData;
         private string currentGps;
         private List<string> allData;
@@ -32,6 +34,8 @@ namespace DownhillApp.ViewModel
         private string selectedGroup;
         private string name;
         private double rideTime;
+        private DateTime startTime;
+        private Task receiveTask;
 
         public MeasureViewModel(IDataProvider service)
         {
@@ -49,8 +53,8 @@ namespace DownhillApp.ViewModel
             this.C_StopMeasure = new Command(StopMeasure);
             this.C_AddNewGroup = new Command(() => AddNewGroup());
             this.C_SaveRide = new Command(() => SaveRide());
-            this._httpClient = new();
-            this.timer = Application.Current.Dispatcher.CreateTimer();
+            //this._httpClient = new();
+            //this.timer = Application.Current.Dispatcher.CreateTimer();
             this.currentData = "";
             this.currentData = "";
             this.allData = new List<string>();
@@ -59,6 +63,7 @@ namespace DownhillApp.ViewModel
             this.selectedGroup = "";
             this.name = "";
             this.rideTime = 0;
+            this.startTime = new DateTime();
         }
 
         public string GroupName
@@ -108,15 +113,48 @@ namespace DownhillApp.ViewModel
             await Shell.Current.GoToAsync("//MainPage");
         }
 
-        private async Task GetData()
+        /*private async Task GetData()
         {
             currentData = await _httpClient.GetStringAsync(IPAddress + "/sendData");
             currentGps = await _httpClient.GetStringAsync(IPAddress + "/sendGps");
-
             AllMeasure.Add(currentData);
             AllMeasure.Add(currentGps);
             allData.Add(currentData);
             allGps.Add(currentGps);
+        }*/
+        private async Task GetData()
+        {
+            byte[] buffer = new byte[4096];
+            while (_webSocket.State == WebSocketState.Open)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    WebSocketReceiveResult result;
+                    do
+                    {
+                        result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        if (result.MessageType == WebSocketMessageType.Close)
+                        {
+                            return;
+                        }
+                        stream.Write(buffer, 0, result.Count);
+                    } while (!result.EndOfMessage);
+                    string message = Encoding.UTF8.GetString(stream.ToArray());
+                    string[] parts = message.Split('|');
+                    if (parts.Length == 2)
+                    {
+                        currentData = parts[0];
+                        currentGps = parts[1];
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            AllMeasure.Add(currentData);
+                            AllMeasure.Add(currentGps);
+                            allData.Add(currentData);
+                            allGps.Add(currentGps);
+                        }); 
+                    }
+                }
+            }
         }
 
         private async void AddNewGroup()
@@ -150,22 +188,27 @@ namespace DownhillApp.ViewModel
 
         private async void StartMeasure()
         {
-            await _httpClient.GetAsync(IPAddress + "/start");
-            
-            timer.Interval = TimeSpan.FromMilliseconds(250);
+            //await _httpClient.GetAsync(IPAddress + "/start");
+
+            /*timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += async (x, y) =>
             {
                 await GetData();
-                this.RideTime += 0.25;
+                this.RideTime += 0.1;
             };
 
-            timer.Start();
+            timer.Start();*/
+            await ConnectWebSocket();
+            this.startTime = DateTime.Now;
+            await SendCommand("start");
         }
 
         private async void StopMeasure()
         {
-            await _httpClient.GetAsync(IPAddress + "/stop");
-            timer.Stop();
+            //await _httpClient.GetAsync(IPAddress + "/stop");
+            //timer.Stop();
+            await SendCommand("stop");
+            this.RideTime = (DateTime.Now - startTime).TotalSeconds;
         }
 
         private void SetDefault()
@@ -236,6 +279,23 @@ namespace DownhillApp.ViewModel
             {
                 this.AllGroup.Add(g.Name);
             }
+        }
+
+        private async Task SendCommand(string command)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(command);
+            await _webSocket.SendAsync(new ArraySegment<byte>(data), WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
+        private async Task ConnectWebSocket()
+        {
+            if(_webSocket != null && _webSocket.State == WebSocketState.Open)
+            {
+                return;
+            }
+            this._webSocket = new ClientWebSocket();
+            await _webSocket.ConnectAsync(new Uri($"ws://{IPAddress}:81"), CancellationToken.None);
+            this.receiveTask = GetData();
         }
     }
 }

@@ -27,6 +27,8 @@ namespace DownhillApp.ViewModel
         private List<double> allDistance;
         private double maxDistance;
         private string geminiResponse;
+        private double[,] corrAccData;
+        private double[,] corrRotData;
         public AnaliseViewModel(IGeminiAiService service)
         {
             this.geminiService = service;
@@ -47,7 +49,8 @@ namespace DownhillApp.ViewModel
             this.allDistance = new List<double>();
             this.maxDistance = 0.0;
             this.geminiResponse = "";
-
+            this.corrAccData = new double[6,6];
+            this.corrRotData = new double[6,6];
         }
 
         public RideData BestRide
@@ -151,7 +154,6 @@ namespace DownhillApp.ViewModel
                 $"-" +
                 $"-";
             this.GeminiResponse = await this.geminiService.GetResponse(promt);
-            //this.GeminiResponse += "\nDONE";
         }
 
         public void SetData()
@@ -212,5 +214,20 @@ namespace DownhillApp.ViewModel
             double result = 2.0 * 6371000.0 * Math.Atan2(Math.Sqrt(temp), Math.Sqrt(1 - temp));
             return result;
         }
+
+        private void SetCorreletionData()
+        {
+            double SelectedAccXAvg = SelectedRide.Acceleration.Average(x => x[0]);
+            double SelectedAccYAvg = SelectedRide.Acceleration.Average(x => x[1]);
+            double SelectedAccZAvg = SelectedRide.Acceleration.Average(x => x[2]);
+            double BestAccXAvg = BestRide.Acceleration.Average(x => x[0]);
+            double BestAccYAvg = BestRide.Acceleration.Average(x => x[1]);
+            double BestAccZAvg = BestRide.Acceleration.Average(x => x[2]);
+
+            double[] tempDatas = [SelectedAccXAvg, SelectedAccYAvg, SelectedAccZAvg, BestAccXAvg, BestAccYAvg, BestAccZAvg];
+
+        }
+
+
     }
 }
