@@ -184,11 +184,23 @@
                 </chart:SfCartesianChart.Legend>
             </chart:SfCartesianChart>
             <!--Tables-->
+            <!--Basic statistic table-->
+            <Label x:Name="l1" Text="Differances in acceleration peak values" HorizontalOptions="Center" FontSize="Medium"/>
+            <Grid x:Name="statBasic" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2" VerticalOptions="Center">
+
+            </Grid>
+            <!--MSE values-->
+            <Label x:Name="l2" Text="Mean Square Error values" HorizontalOptions="Center" FontSize="Medium"/>
+            <Grid x:Name="mseValues" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2" VerticalOptions="Center">
+                
+            </Grid>
             <!--Corrlelation Acceleration-->
+            <Label x:Name="l3" Text="Acceleration Correlation Matrix" HorizontalOptions="Center" FontSize="Medium"/>
             <Grid x:Name="CorrAcc" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2" VerticalOptions="Center">
                 
             </Grid>
             <!--Korrlation Rotation-->
+            <Label x:Name="l4" Text="Rotation Colleration Matrix" HorizontalOptions="Center" FontSize="Medium"/>
             <Grid x:Name="CorrRot" Margin="10" Padding="10" RowSpacing="2" ColumnSpacing="2" VerticalOptions="Center">
 
             </Grid>

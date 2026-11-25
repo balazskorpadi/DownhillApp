@@ -30,6 +30,8 @@ namespace DownhillApp.ViewModel
         private string geminiResponse;
         public double[,] corrAccData;
         public double[,] corrRotData;
+        public double[] mse;
+        public double[,] statistic;
         public AnaliseViewModel(IGeminiAiService service)
         {
             this.geminiService = service;
@@ -52,6 +54,8 @@ namespace DownhillApp.ViewModel
             this.geminiResponse = "";
             this.corrAccData = new double[6,6];
             this.corrRotData = new double[6,6];
+            this.mse = new double[6];
+            this.statistic = new double[3, 3];
         }
 
         public RideData BestRide
@@ -216,9 +220,9 @@ namespace DownhillApp.ViewModel
             return result;
         }
 
-        public void SetCorreletionData()
+        public void SetStatisticData()
         {
-            //Aceleration
+            //Aceleration correlation
             double SelectedAccXAvg = SelectedRide.Acceleration.Average(x => x[0]);
             double SelectedAccYAvg = SelectedRide.Acceleration.Average(x => x[1]);
             double SelectedAccZAvg = SelectedRide.Acceleration.Average(x => x[2]);
@@ -262,7 +266,19 @@ namespace DownhillApp.ViewModel
                 }
             }
 
-            //Rotation
+            //Acceleration MSE
+            for (int i = 0; i < 3; i++)
+            {
+                int n = Math.Min(tempData[i].Length, tempData[i + 3].Length);
+                double temp = 0;
+                for (int e = 0; e < n; e++)
+                {
+                    temp += Math.Pow((tempData[i+3][e]-tempData[i][e]),2);
+                }
+                mse[i] = temp/n;
+            }
+
+            //Rotation correlation
             double SelectedRotXAvg = SelectedRide.Rotation.Average(x => x[0]);
             double SelectedRotYAvg = SelectedRide.Rotation.Average(x => x[1]);
             double SelectedRotZAvg = SelectedRide.Rotation.Average(x => x[2]);
@@ -305,6 +321,37 @@ namespace DownhillApp.ViewModel
                     corrRotData[i, e] = numerator / denominator;
                 }
             }
+
+            //Rotation MSE
+            for (int i = 0; i < 3; i++)
+            {
+                int n = Math.Min(tempData[i].Length, tempData[i + 3].Length);
+                double temp = 0;
+                for (int e = 0; e < n; e++)
+                {
+                    temp += Math.Pow((tempData[i + 3][e] - tempData[i][e]), 2);
+                }
+                mse[i+3] = temp / n;
+            }
+
+            //Basic statistic
+            double MaxAccX = SelectedRide.Acceleration.Max(x => x[0]);
+            double MaxAccY = SelectedRide.Acceleration.Max(x => x[1]);
+            double MaxAccZ = SelectedRide.Acceleration.Max(x => x[2]);
+
+            int IndexAccX = Array.IndexOf(SelectedRide.Acceleration.Select(x => (double)x[0]).ToArray(), MaxAccX);
+            int IndexAccY = Array.IndexOf(SelectedRide.Acceleration.Select(x => (double)x[1]).ToArray(), MaxAccY);
+            int IndexAccZ = Array.IndexOf(SelectedRide.Acceleration.Select(x => (double)x[2]).ToArray(), MaxAccZ);
+
+            double DistanceX = AllDistance[IndexAccX];
+            double DistanceY = AllDistance[IndexAccY];
+            double DistanceZ = AllDistance[IndexAccZ];
+
+            double DifferenceX = BestRide.Acceleration.Select(x => x[0]).ToArray()[IndexAccX] - MaxAccX;
+            double DifferenceY = BestRide.Acceleration.Select(x => x[1]).ToArray()[IndexAccY] - MaxAccY;
+            double DifferenceZ = BestRide.Acceleration.Select(x => x[2]).ToArray()[IndexAccZ] - MaxAccZ;
+
+            this.statistic = new double[,] { { MaxAccX, MaxAccY, MaxAccZ }, {DistanceX, DistanceY, DistanceZ}, { DifferenceX, DifferenceY, DifferenceZ } };
         }
 
     }
